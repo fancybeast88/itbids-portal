@@ -12,37 +12,30 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Email and password required')
-        }
+        if (!credentials?.email || !credentials?.password) return null
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         })
-        if (!user) throw new Error('Invalid email or password')
-        if (user.status === 'pending')
-          throw new Error('Account pending approval.')
-        if (user.status === 'rejected')
-          throw new Error('Account not approved.')
-        if (user.status === 'suspended')
-          throw new Error('Account suspended.')
+        if (!user) return null
+        if (user.status !== 'approved') return null
         const valid = await bcrypt.compare(credentials.password, user.passwordHash)
-        if (!valid) throw new Error('Invalid email or password')
-        return { id: user.id, email: user.email, name: user.role }
+        if (!valid) return null
+        return { id: user.id, email: user.email, name: user.role, role: user.role } as any
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = user.name as string
-        token.uid  = user.id as string
+        token.role = (user as any).role
+        token.uid  = user.id
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).role = token.role as string
-        (session.user as any).id   = token.uid as string
+        (session.user as any).role = token.role
+        (session.user as any).id   = token.uid
       }
       return session
     },
