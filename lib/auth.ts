@@ -1,7 +1,7 @@
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcrypt';
-import { prisma } from './prisma';
+import prisma from './prisma';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -21,11 +21,11 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) throw new Error('Invalid email or password');
-        if (user.status === 'PENDING')
+        if (user.status === 'pending')
           throw new Error('Your account is pending admin approval. You will receive an email once approved.');
-        if (user.status === 'REJECTED')
+        if (user.status === 'rejected')
           throw new Error('Your account application was not approved. Contact support.');
-        if (user.status === 'SUSPENDED')
+        if (user.status === 'suspended')
           throw new Error('Your account has been suspended. Contact support.');
 
         const valid = await bcrypt.compare(credentials.password, user.passwordHash);
