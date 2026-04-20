@@ -1,19 +1,19 @@
-import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { withAuth } from 'next-auth/middleware'
+import { NextResponse } from 'next/server'
 
 export default withAuth(
   function middleware(req) {
-    const token = req.nextauth.token as any;
-    const path  = req.nextUrl.pathname;
+    const token = req.nextauth.token as any
+    const path  = req.nextUrl.pathname
 
-    if (path.startsWith('/admin') && token?.role !== 'ADMIN') {
-      return NextResponse.redirect(new URL('/login?error=Unauthorized', req.url));
+    if (path.startsWith('/admin') && token?.role !== 'admin') {
+      return NextResponse.redirect(new URL('/login?error=Unauthorized', req.url))
     }
-    if (path.startsWith('/vendor') && token?.role !== 'VENDOR') {
-      return NextResponse.redirect(new URL('/login?error=Unauthorized', req.url));
+    if (path.startsWith('/vendor') && token?.role !== 'vendor') {
+      return NextResponse.redirect(new URL('/login?error=Unauthorized', req.url))
     }
-    if (path.startsWith('/business') && token?.role !== 'BUSINESS') {
-      return NextResponse.redirect(new URL('/login?error=Unauthorized', req.url));
+    if (path.startsWith('/business') && token?.role !== 'business') {
+      return NextResponse.redirect(new URL('/login?error=Unauthorized', req.url))
     }
   },
   {
@@ -21,7 +21,7 @@ export default withAuth(
       authorized: ({ token }) => !!token,
     },
   }
-);
+)
 
 export const config = {
   matcher: [
@@ -29,4 +29,4 @@ export const config = {
     '/vendor/:path*',
     '/business/:path*',
   ],
-};
+}
