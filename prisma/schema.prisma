@@ -150,3 +150,11 @@ model EmailSettings {
   key   String  @unique
   value Boolean @default(true)
 }
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
