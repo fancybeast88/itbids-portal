@@ -159,3 +159,14 @@ model PasswordResetToken {
   expiresAt DateTime
   createdAt DateTime @default(now())
 }
+
+model BusinessCreditTransaction {
+  id        String          @id @default(uuid())
+  bizId     String
+  business  BusinessProfile @relation(fields: [bizId], references: [id])
+  type      String
+  credits   Int
+  rfqId     String?
+  status    String          @default("confirmed")
+  createdAt DateTime        @default(now())
+}
