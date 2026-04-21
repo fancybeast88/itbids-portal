@@ -32,7 +32,6 @@ model VendorProfile {
   phone         String?
   city          String?
   ntn           String?
-  credits       Int      @default(0)
   partnerLevel  String?
   brands        String[]
   credits       Int      @default(0)
