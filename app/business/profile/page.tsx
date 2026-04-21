@@ -15,7 +15,7 @@ export default async function BusinessProfilePage() {
   if (!biz) redirect('/login')
 
   return (
-    <PortalLayout>
+    <PortalLayout bizCredits={biz.credits}>
       <div className="p-6 max-w-md">
         <h1 className="text-lg font-semibold text-gray-800 mb-5">Profile</h1>
         <div className="bg-white border border-gray-100 rounded-xl p-5">

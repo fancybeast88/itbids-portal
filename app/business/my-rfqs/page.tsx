@@ -28,7 +28,7 @@ export default async function MyRFQsPage() {
   })
 
   return (
-    <PortalLayout>
+    <PortalLayout bizCredits={biz.credits}>
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-lg font-semibold text-gray-800">My RFQs</h1>
