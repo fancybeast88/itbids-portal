@@ -7,7 +7,7 @@ import AdminUserTable from '@/components/admin/AdminUserTable'
 
 export default async function AdminUsersPage() {
   const session = await getServerSession(authOptions)
-  if (!session || !session.user || session.user.role !== 'admin') redirect('/login')
+  if (!session || (session.user as any).role !== 'admin') redirect('/login')
 
   const [vendors, businesses] = await Promise.all([
     prisma.user.findMany({

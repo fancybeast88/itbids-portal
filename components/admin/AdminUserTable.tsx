@@ -10,9 +10,10 @@ const statusColor: Record<string, string> = {
 }
 
 function UserTable({ users, type }: { users: any[]; type: 'vendor' | 'business' }) {
-  const [list, setList] = useState(users)
+  const [list, setList]     = useState(users)
   const [loading, setLoading] = useState<string | null>(null)
-  const [filter, setFilter] = useState('all')
+  const [filter, setFilter]   = useState('all')
+
   const filtered = filter === 'all' ? list : list.filter(u => u.status === filter)
 
   async function act(userId: string, action: 'approve' | 'reject') {
@@ -31,16 +32,20 @@ function UserTable({ users, type }: { users: any[]; type: 'vendor' | 'business' 
         <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">
           {type === 'vendor' ? 'Vendors' : 'Businesses'}
           <span className="ml-2 bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 rounded-full">{list.length}</span>
+          <span className="ml-1 bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full">
+            {list.filter(u => u.status === 'pending').length} pending
+          </span>
         </div>
         <div className="flex gap-1.5">
-          {['all','pending','approved','rejected'].map(f => (
+          {['all','pending','approved','rejected','suspended'].map(f => (
             <button key={f} onClick={() => setFilter(f)}
-              className={`text-[10px] px-2.5 py-1 rounded-full border transition ${filter === f ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-200 text-gray-400'}`}>
+              className={`text-[10px] px-2.5 py-1 rounded-full border transition ${filter === f ? 'bg-blue-600 text-white border-blue-600' : 'border-gray-200 text-gray-400 hover:border-gray-300'}`}>
               {f.charAt(0).toUpperCase() + f.slice(1)}
             </button>
           ))}
         </div>
       </div>
+
       <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
         <table className="w-full text-xs">
           <thead className="bg-gray-50 border-b border-gray-100">
@@ -49,7 +54,7 @@ function UserTable({ users, type }: { users: any[]; type: 'vendor' | 'business' 
               <th className="text-left px-4 py-2.5 font-medium text-gray-400">Email</th>
               <th className="text-left px-4 py-2.5 font-medium text-gray-400">City</th>
               {type === 'vendor' && <th className="text-left px-4 py-2.5 font-medium text-gray-400">Brands</th>}
-              {type === 'vendor' && <th className="text-left px-4 py-2.5 font-medium text-gray-400">Credits</th>}
+              <th className="text-left px-4 py-2.5 font-medium text-gray-400">Credits</th>
               <th className="text-left px-4 py-2.5 font-medium text-gray-400">Joined</th>
               <th className="text-left px-4 py-2.5 font-medium text-gray-400">Status</th>
               <th className="text-left px-4 py-2.5 font-medium text-gray-400">Actions</th>
@@ -62,17 +67,23 @@ function UserTable({ users, type }: { users: any[]; type: 'vendor' | 'business' 
             {filtered.map((u: any) => {
               const p = profile(u)
               return (
-                <tr key={u.id} className="border-b border-gray-50 last:border-0">
+                <tr key={u.id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50">
                   <td className="px-4 py-2.5 font-medium text-gray-700">{p?.companyName || '—'}</td>
                   <td className="px-4 py-2.5 text-gray-500">{u.email}</td>
                   <td className="px-4 py-2.5 text-gray-400">{p?.city || '—'}</td>
-                  {type === 'vendor' && <td className="px-4 py-2.5 text-gray-400">{p?.brands?.join(', ') || '—'}</td>}
-                  {type === 'vendor' && <td className="px-4 py-2.5 text-gray-600 font-medium">{p?.credits ?? 0}</td>}
+                  {type === 'vendor' && (
+                    <td className="px-4 py-2.5 text-gray-400 max-w-[120px] truncate">{p?.brands?.join(', ') || '—'}</td>
+                  )}
+                  <td className="px-4 py-2.5">
+                    <span className="font-semibold text-blue-600">{p?.credits ?? 0}</span>
+                  </td>
                   <td className="px-4 py-2.5 text-gray-400">
                     {new Date(u.createdAt).toLocaleDateString('en-PK', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </td>
                   <td className="px-4 py-2.5">
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${statusColor[u.status]}`}>{u.status}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${statusColor[u.status]}`}>
+                      {u.status}
+                    </span>
                   </td>
                   <td className="px-4 py-2.5">
                     <div className="flex gap-1.5 flex-wrap">
@@ -107,7 +118,7 @@ function UserTable({ users, type }: { users: any[]; type: 'vendor' | 'business' 
 export default function AdminUserTable({ vendors, businesses }: { vendors: any[]; businesses: any[] }) {
   return (
     <>
-      <UserTable users={vendors} type="vendor" />
+      <UserTable users={vendors}    type="vendor"   />
       <UserTable users={businesses} type="business" />
     </>
   )

@@ -30,17 +30,20 @@ const businessNav: NavItem[] = [
 ]
 
 const adminNav: NavItem[] = [
-  { label: 'Dashboard',    href: '/admin/dashboard',  icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
-  { label: 'RFQ Approvals',href: '/admin/rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'Users',        href: '/admin/users',      icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
-  { label: 'Payments',     href: '/admin/payments',   icon: <Icon d="M1 4h13v8H1zM1 7h13" /> },
-  { label: 'Settings',     href: '/admin/settings',   icon: <Icon d="M7 7m-2 0a2 2 0 104 0 2 2 0 10-4 0M7 1v2M7 12v2M1 7h2M12 7h2" /> },
+  { label: 'Dashboard',     href: '/admin/dashboard',  icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
+  { label: 'RFQ Approvals', href: '/admin/rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
+  { label: 'All Quotes',    href: '/admin/quotes',     icon: <Icon d="M2 2h11v11H2zM5 5h5M5 8h3" /> },
+  { label: 'Users',         href: '/admin/users',      icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
+  { label: 'Payments',      href: '/admin/payments',   icon: <Icon d="M1 4h13v8H1zM1 7h13" /> },
+  { label: 'Settings',      href: '/admin/settings',   icon: <Icon d="M7 7m-2 0a2 2 0 104 0 2 2 0 10-4 0M7 1v2M7 12v2M1 7h2M12 7h2" /> },
 ]
 
 export default function PortalLayout({
-  children, credits, bizCredits
+  children, credits, bizCredits,
 }: {
-  children: React.ReactNode; credits?: number; bizCredits?: number
+  children: React.ReactNode
+  credits?: number
+  bizCredits?: number
 }) {
   const { data: session } = useSession()
   const pathname = usePathname()
@@ -63,7 +66,9 @@ export default function PortalLayout({
             const active = pathname.startsWith(item.href)
             return (
               <Link key={item.href} href={item.href}
-                className={`flex items-center gap-2.5 px-3 py-2 text-xs mx-1 rounded-lg transition-all ${active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'}`}>
+                className={`flex items-center gap-2.5 px-3 py-2 text-xs mx-1 rounded-lg transition-all ${
+                  active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
+                }`}>
                 {item.icon}
                 {item.label}
               </Link>
@@ -92,10 +97,11 @@ export default function PortalLayout({
               </Link>
             </div>
           )}
-          <button
           <button onClick={() => signOut({ callbackUrl: '/login' })}
             className="w-full text-left text-xs text-gray-400 hover:text-gray-600 px-1 py-1 flex items-center gap-2">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 2H2v10h3M9 9l3-3-3-3M12 6.5H5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M5 2H2v10h3M9 9l3-3-3-3M12 6.5H5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
             Sign out
           </button>
         </div>
