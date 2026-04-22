@@ -53,6 +53,7 @@ model BusinessProfile {
   credits       Int      @default(0)
   createdAt     DateTime @default(now())
   rfqs Rfq[]
+  creditTransactions BusinessCreditTransaction[]
 }
 
 model Rfq {
