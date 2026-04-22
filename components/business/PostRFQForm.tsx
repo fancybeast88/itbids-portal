@@ -29,8 +29,13 @@ export default function PostRFQForm({ postFee, bizCredits }: { postFee: number; 
     })
     const data = await res.json()
     setLoading(false)
-    if (res.ok) setDone(true)
-    else setError(data.error || 'Failed to submit')
+    if (res.ok) {
+      setDone(true)
+      // Force page refresh to show updated credit balance
+      setTimeout(() => window.location.reload(), 3000)
+    } else {
+      setError(data.error || 'Failed to submit RFQ')
+    }
   }
 
   if (done) return (
