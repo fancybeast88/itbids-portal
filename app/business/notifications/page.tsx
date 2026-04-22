@@ -18,8 +18,10 @@ export default async function BusinessNotificationsPage() {
     data: { isRead: true },
   })
 
+  const biz = await prisma.businessProfile.findUnique({ where: { userId: (session.user as any).id } })
+
   return (
-    <PortalLayout bizCredits={biz.credits}>
+    <PortalLayout bizCredits={biz?.credits ?? 0}>
       <div className="p-6 max-w-2xl">
         <h1 className="text-lg font-semibold text-gray-800 mb-5">Notifications</h1>
         <div className="bg-white border border-gray-100 rounded-xl divide-y divide-gray-50">
