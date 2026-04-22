@@ -68,12 +68,10 @@ export default function AdminEditUserForm({ user }: { user: any }) {
             <div className="font-medium text-gray-800">{profile?.companyName}</div>
             <div className="text-xs text-gray-400">{user.email} · {user.role}</div>
           </div>
-          {isVendor && (
-            <div className="ml-auto text-right">
+          <div className="ml-auto text-right">
               <div className="text-xs text-gray-400">Credits</div>
-              <div className="text-xl font-semibold text-blue-600">{user.vendorProfile?.credits ?? 0}</div>
+              <div className="text-xl font-semibold text-blue-600">{user.vendorProfile?.credits ?? user.businessProfile?.credits ?? 0}</div>
             </div>
-          )}
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
