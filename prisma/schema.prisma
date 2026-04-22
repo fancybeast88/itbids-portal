@@ -171,3 +171,9 @@ model BusinessCreditTransaction {
   status    String          @default("confirmed")
   createdAt DateTime        @default(now())
 }
+
+model GlobalSettings {
+  id         String   @id @default("singleton")
+  rfqPostFee Int      @default(50)
+  updatedAt  DateTime @default(now())
+}
