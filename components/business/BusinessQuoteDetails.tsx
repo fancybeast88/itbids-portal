@@ -147,19 +147,19 @@ export default function BusinessQuoteDetails({ quotes, rfqTitle, bizName }: {
                   <div>
                     <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Actions</div>
                     <div className="space-y-2">
-                      {status==='submitted'&&(
-                        <button onClick={()=>updateStatus(q.id,'shortlisted')} disabled={updating===q.id}
+                      {status !== 'won' && status !== 'lost' && (
+                        <button onClick={()=>updateStatus(q.id,'shortlisted')} disabled={updating===q.id||status==='shortlisted'}
                           className="w-full text-xs px-3 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50">
-                          {updating===q.id?'Updating...':"Shortlist vendor"}
+                          {updating===q.id?'Updating...':status==='shortlisted'?'Shortlisted':'Shortlist vendor'}
                         </button>
                       )}
-                      {status==='shortlisted'&&(
+                      {(status==='shortlisted') && (
                         <button onClick={()=>updateStatus(q.id,'won')} disabled={updating===q.id}
                           className="w-full text-xs px-3 py-2 bg-green-600 text-white rounded-lg disabled:opacity-50">
                           {updating===q.id?'Updating...':'Mark as won'}
                         </button>
                       )}
-                      {(status==='submitted'||status==='shortlisted')&&(
+                      {status !== 'won' && status !== 'lost' && (
                         <button onClick={()=>updateStatus(q.id,'lost')} disabled={updating===q.id}
                           className="w-full text-xs px-3 py-2 border border-red-200 text-red-600 rounded-lg">
                           Reject quote
