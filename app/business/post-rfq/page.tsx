@@ -7,15 +7,22 @@ import PostRFQForm from '@/components/business/PostRFQForm'
 
 export default async function PostRFQPage() {
   const session = await getServerSession(authOptions)
-  if (!session || !session.user || session.user.role !== 'business') redirect('/login')
-  const biz = await prisma.businessProfile.findUnique({ where: { userId: session.user.id } })
+  if (!session || (session.user as any).role !== 'business') redirect('/login')
+
+  const biz = await prisma.businessProfile.findUnique({ where: { userId: (session.user as any).id } })
   if (!biz) redirect('/login')
+
+  const settings = await prisma.globalSettings.findUnique({ where: { id: 'singleton' } })
+  const postFee = settings?.rfqPostFee ?? 50
+
   return (
     <PortalLayout bizCredits={biz.credits}>
       <div className="p-6 max-w-2xl">
         <h1 className="text-lg font-semibold text-gray-800 mb-1">Post a New RFQ</h1>
-        <p className="text-xs text-gray-400 mb-6">Fill in the details below. Your RFQ will be reviewed by our admin team before going live.</p>
-        <PostRFQForm />
+        <p className="text-xs text-gray-400 mb-6">
+          Posting costs <strong>{postFee} credits</strong> · Your balance: <strong>{biz.credits} credits</strong>
+        </p>
+        <PostRFQForm postFee={postFee} bizCredits={biz.credits} />
       </div>
     </PortalLayout>
   )
