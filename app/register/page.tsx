@@ -1,9 +1,10 @@
 'use client'
+import Logo from '@/components/Logo'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-const BRANDS = ['Dell', 'HPE', 'Fortinet', 'Cisco', 'Lenovo', 'Ruijie', 'Huawei', 'Veeam', 'Kaspersky', 'TrendMicro', 'Ubiquiti', 'Others']
+const BRANDS = ['Dell', 'HP', 'Fortinet', 'Cisco', 'Lenovo', 'IBM', 'Huawei', 'Aruba']
 const CITIES = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta']
 
 export default function RegisterPage() {
@@ -59,12 +60,12 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-blue-700">IT Bids Portal</h1>
+          <Logo size="lg" />
           <p className="text-gray-500 text-sm mt-1">Create your account</p>
         </div>
         <div className="bg-white border border-gray-200 rounded-xl p-8">
           <div className="flex gap-2 mb-6">
-            {[1,2,3].map((s: any) => (
+            {[1,2,3].map(s => (
               <div key={s} className={`h-1.5 flex-1 rounded-full ${s < step ? 'bg-green-500' : s === step ? 'bg-blue-500' : 'bg-gray-200'}`} />
             ))}
           </div>
@@ -75,7 +76,7 @@ export default function RegisterPage() {
             <div>
               <p className="text-sm font-medium mb-4">Step 1 — Account type</p>
               <div className="grid grid-cols-2 gap-3 mb-6">
-                {(['vendor', 'business'] as const).map((r: any) => (
+                {(['vendor', 'business'] as const).map(r => (
                   <button key={r} onClick={() => setRole(r)}
                     className={`border-2 rounded-xl p-4 text-center transition ${role === r ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'}`}>
                     <div className={`font-semibold text-sm ${role === r ? 'text-blue-700' : 'text-gray-800'}`}>
@@ -116,7 +117,7 @@ export default function RegisterPage() {
                     <select value={form.city} onChange={e => setForm(f=>({...f,city:e.target.value}))}
                       className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
                       <option value="">Select city</option>
-                      {CITIES.map((c: any) => <option key={c}>{c}</option>)}
+                      {CITIES.map(c => <option key={c}>{c}</option>)}
                     </select></div>
                   <div><label className="text-xs text-gray-500 block mb-1">NTN / CNIC</label>
                     <input value={form.ntn} onChange={e => setForm(f=>({...f,ntn:e.target.value}))}
@@ -127,11 +128,11 @@ export default function RegisterPage() {
                     <div><label className="text-xs text-gray-500 block mb-1">Partner level</label>
                       <select value={form.partnerLevel} onChange={e => setForm(f=>({...f,partnerLevel:e.target.value}))}
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
-                        {['Authorized reseller','Gold partner','Platinum partner','Titanium partner'].map((p: any) => <option key={p}>{p}</option>)}
+                        {['Authorized reseller','Gold partner','Platinum partner','Titanium partner'].map(p => <option key={p}>{p}</option>)}
                       </select></div>
                     <div><label className="text-xs text-gray-500 block mb-1">Brands you deal in</label>
                       <div className="flex flex-wrap gap-2 mt-1">
-                        {BRANDS.map((b: any) => (
+                        {BRANDS.map(b => (
                           <button key={b} onClick={() => toggleBrand(b)} type="button"
                             className={`text-xs px-3 py-1 rounded-full border transition ${form.brands.includes(b) ? 'bg-blue-100 border-blue-400 text-blue-700' : 'border-gray-300 text-gray-500'}`}>
                             {b}

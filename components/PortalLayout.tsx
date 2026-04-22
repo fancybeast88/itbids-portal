@@ -2,6 +2,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 
 type NavItem = { label: string; href: string; icon: React.ReactNode }
 
@@ -56,8 +57,8 @@ export default function PortalLayout({
     <div className="flex min-h-screen bg-gray-50">
       <aside className="w-52 bg-white border-r border-gray-100 flex flex-col">
         <div className="px-4 py-4 border-b border-gray-100">
-          <div className="text-sm font-semibold text-blue-700">Lead Vault</div>
-          <div className="text-xs text-gray-400 mt-0.5">{roleLabel}: {session?.user?.email?.split('@')[0]}</div>
+          <Logo size="sm" />
+          <div className="text-xs text-gray-400 mt-2">{roleLabel}: {session?.user?.email?.split('@')[0]}</div>
         </div>
 
         <nav className="flex-1 py-2">

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -29,9 +30,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-blue-700">LeadVault</h1>
-          <p className="text-gray-500 text-sm mt-1">Pakistan IT Procurement Marketplace</p>
+        <div className="flex flex-col items-center mb-8">
+          <Logo size="lg" />
+          <p className="text-gray-500 text-sm mt-3">Pakistan IT Procurement Marketplace</p>
         </div>
         <div className="bg-white border border-gray-200 rounded-xl p-8">
           <h2 className="text-lg font-semibold mb-6">Sign in</h2>
@@ -54,7 +55,12 @@ export default function LoginPage() {
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </form>
-          <p className="text-center text-xs text-gray-400 mt-4">
+          <div className="text-center mt-3">
+            <Link href="/forgot-password" className="text-xs text-gray-400 hover:text-blue-600">
+              Forgot your password?
+            </Link>
+          </div>
+          <p className="text-center text-xs text-gray-400 mt-2">
             Don&apos;t have an account?{' '}
             <Link href="/register" className="text-blue-600 hover:underline">Register</Link>
           </p>
