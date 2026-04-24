@@ -16,6 +16,7 @@ function Icon({ d }: { d: string }) {
 
 const vendorNav: NavItem[] = [
   { label: 'Browse RFQs',   href: '/vendor/rfqs',          icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
+  { label: 'My Stock',      href: '/vendor/stock',         icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
   { label: 'My Quotes',     href: '/vendor/quotes',        icon: <Icon d="M2 2h11v11H2z" /> },
   { label: 'Buy Credits',   href: '/vendor/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
   { label: 'Notifications', href: '/vendor/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
@@ -26,6 +27,7 @@ const businessNav: NavItem[] = [
   { label: 'Post RFQ',      href: '/business/post-rfq',      icon: <Icon d="M2 2h11v11H2zM7 5v5M4.5 7.5h5" /> },
   { label: 'My RFQs',       href: '/business/my-rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
   { label: 'Buy Credits',   href: '/business/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
+  { label: 'Vendor Stock',  href: '/business/stock',       icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
   { label: 'Notifications', href: '/business/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
   { label: 'Profile',       href: '/business/profile',       icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
 ]
