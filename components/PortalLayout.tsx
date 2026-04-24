@@ -15,8 +15,8 @@ function Icon({ d }: { d: string }) {
 }
 
 const vendorNav: NavItem[] = [
+  { label: 'Dashboard',    href: '/vendor/dashboard',     icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
   { label: 'Browse RFQs',   href: '/vendor/rfqs',          icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'My Stock',      href: '/vendor/stock',         icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
   { label: 'My Quotes',     href: '/vendor/quotes',        icon: <Icon d="M2 2h11v11H2z" /> },
   { label: 'Buy Credits',   href: '/vendor/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
   { label: 'Notifications', href: '/vendor/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
@@ -24,10 +24,10 @@ const vendorNav: NavItem[] = [
 ]
 
 const businessNav: NavItem[] = [
+  { label: 'Dashboard',    href: '/business/dashboard',   icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
   { label: 'Post RFQ',      href: '/business/post-rfq',      icon: <Icon d="M2 2h11v11H2zM7 5v5M4.5 7.5h5" /> },
   { label: 'My RFQs',       href: '/business/my-rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
   { label: 'Buy Credits',   href: '/business/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
-  { label: 'Vendor Stock',  href: '/business/stock',       icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
   { label: 'Notifications', href: '/business/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
   { label: 'Profile',       href: '/business/profile',       icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
 ]
@@ -108,14 +108,6 @@ export default function PortalLayout({
             Sign out
           </button>
         </div>
-
-          {/* Ad banner */}
-          <div className="mx-3 mb-3 rounded-xl overflow-hidden border border-dashed border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-3">
-            <div className="text-[9px] font-semibold text-blue-400 uppercase tracking-widest mb-1">Advertisement</div>
-            <div className="text-xs font-bold text-blue-700 leading-tight mb-1">TO LET</div>
-            <div className="text-[10px] text-gray-500 leading-relaxed">Advertise your business here and reach hundreds of IT vendors and buyers across Pakistan.</div>
-            <div className="mt-2 text-[10px] font-semibold text-blue-600 break-all">advertisement@leadvault.pk</div>
-          </div>
       </aside>
 
       <main className="flex-1 overflow-y-auto">
