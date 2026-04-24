@@ -106,6 +106,14 @@ export default function PortalLayout({
             Sign out
           </button>
         </div>
+
+          {/* Ad banner */}
+          <div className="mx-3 mb-3 rounded-xl overflow-hidden border border-dashed border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-3">
+            <div className="text-[9px] font-semibold text-blue-400 uppercase tracking-widest mb-1">Advertisement</div>
+            <div className="text-xs font-bold text-blue-700 leading-tight mb-1">TO LET</div>
+            <div className="text-[10px] text-gray-500 leading-relaxed">Advertise your business here and reach hundreds of IT vendors and buyers across Pakistan.</div>
+            <div className="mt-2 text-[10px] font-semibold text-blue-600 break-all">advertisement@leadvault.pk</div>
+          </div>
       </aside>
 
       <main className="flex-1 overflow-y-auto">
