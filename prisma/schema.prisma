@@ -39,6 +39,7 @@ model VendorProfile {
   rfqUnlocks         RfqUnlock[]
   quotes             Quote[]
   creditTransactions CreditTransaction[]
+  stockItems         StockItem[]
 }
 
 model BusinessProfile {
@@ -176,4 +177,23 @@ model GlobalSettings {
   id         String   @id @default("singleton")
   rfqPostFee Int      @default(50)
   updatedAt  DateTime @default(now())
+}
+
+model StockItem {
+  id           String        @id @default(uuid())
+  vendorId     String
+  vendor       VendorProfile @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  type         String        @default("available")
+  brand        String
+  category     String
+  model        String
+  description  String?
+  quantity     Int
+  unitPricePkr BigInt?
+  condition    String        @default("new")
+  city         String?
+  expectedDate DateTime?
+  isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now())
 }
