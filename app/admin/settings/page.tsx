@@ -9,10 +9,11 @@ export default async function AdminSettingsPage() {
   const session = await getServerSession(authOptions)
   if (!session || !session.user || session.user.role !== 'admin') redirect('/login')
 
-  const [costs, packages, emailSettings] = await Promise.all([
+  const [costs, packages, emailSettings, globalSettings] = await Promise.all([
     prisma.categoryCreditCost.findMany({ orderBy: { category: 'asc' } }),
     prisma.creditPackage.findMany({ where: { isActive: true }, orderBy: { credits: 'asc' } }),
     prisma.emailSettings.findMany(),
+    prisma.globalSettings.findUnique({ where: { id: 'singleton' } }),
   ])
 
   return (
