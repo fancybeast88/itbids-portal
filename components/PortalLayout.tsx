@@ -108,6 +108,26 @@ export default function PortalLayout({
             Sign out
           </button>
         </div>
+
+          {/* Ad banner */}
+          <div className="mx-3 mb-3 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-3 relative overflow-hidden">
+            <div className="absolute top-1.5 right-2 text-[8px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
+            <div className="flex items-center gap-1.5 mb-1.5">
+              <div className="w-5 h-5 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M1 9V4l4-3 4 3v5H6V6H4v3H1z" stroke="white" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <div className="text-xs font-bold text-amber-700">TO LET</div>
+            </div>
+            <div className="text-[10px] text-amber-800 leading-relaxed font-medium mb-2">
+              This ad space is available! Reach 1000s of IT vendors and businesses across Pakistan.
+            </div>
+            <div className="bg-amber-100 rounded-lg px-2 py-1.5">
+              <div className="text-[9px] text-amber-600 mb-0.5">Contact us at</div>
+              <div className="text-[10px] font-bold text-amber-800 break-all">advert@leadvault.pk</div>
+            </div>
+          </div>
       </aside>
 
       <main className="flex-1 overflow-y-auto">
