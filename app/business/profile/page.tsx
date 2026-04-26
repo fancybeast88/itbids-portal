@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
+import ChangePasswordForm from '@/components/ChangePasswordForm'
 import PortalLayout from '@/components/PortalLayout'
 
 export default async function BusinessProfilePage() {
@@ -45,6 +46,7 @@ export default async function BusinessProfilePage() {
           </table>
         </div>
       </div>
+        <div className="p-6"><ChangePasswordForm /></div>
     </PortalLayout>
   )
 }

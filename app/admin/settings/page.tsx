@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
+import ChangePasswordForm from '@/components/ChangePasswordForm'
 import PortalLayout from '@/components/PortalLayout'
 import AdminSettingsForm from '@/components/admin/AdminSettingsForm'
 
@@ -20,6 +21,8 @@ export default async function AdminSettingsPage() {
     <PortalLayout>
       <div className="p-6 max-w-2xl">
         <h1 className="text-lg font-semibold text-gray-800 mb-5">Settings</h1>
+        <ChangePasswordForm />
+        <div className="mt-5"></div>
         <AdminSettingsForm costs={costs} packages={packages} emailSettings={emailSettings} rfqPostFee={globalSettings?.rfqPostFee ?? 50} />
       </div>
     </PortalLayout>
