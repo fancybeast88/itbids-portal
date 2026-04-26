@@ -64,6 +64,6 @@ export default async function VendorRFQsPage() {
         </div>
       </div>
       <AdBanner role="vendor" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

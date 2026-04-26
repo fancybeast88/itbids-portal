@@ -58,6 +58,6 @@ export default async function BusinessNotificationsPage() {
         </div>
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

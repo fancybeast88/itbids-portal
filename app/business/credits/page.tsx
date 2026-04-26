@@ -39,6 +39,6 @@ export default async function BusinessCreditsPage() {
         </div>
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

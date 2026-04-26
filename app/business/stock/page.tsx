@@ -122,6 +122,6 @@ export default function BusinessStockPage() {
         </div>
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

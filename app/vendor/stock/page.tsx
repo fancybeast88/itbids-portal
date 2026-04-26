@@ -218,6 +218,6 @@ export default function VendorStockPage() {
         </div>
       </div>
       <AdBanner role="vendor" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

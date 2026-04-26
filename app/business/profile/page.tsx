@@ -41,7 +41,7 @@ export default async function BusinessProfilePage() {
         </div>
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }
 

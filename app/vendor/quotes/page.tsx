@@ -158,6 +158,6 @@ export default function VendorQuotesPage() {
         </div>
       </div>
       <AdBanner role="vendor" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

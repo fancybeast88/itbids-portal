@@ -116,6 +116,6 @@ export default async function MyRFQsPage() {
         </div>
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

@@ -184,6 +184,6 @@ export default async function VendorDashboardPage() {
         </div>
       </div>
       <AdBanner role="vendor" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

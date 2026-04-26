@@ -40,6 +40,6 @@ export default async function PostRFQPage() {
         </div>
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

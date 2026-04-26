@@ -168,6 +168,6 @@ export default async function BusinessDashboardPage() {
         </div>
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

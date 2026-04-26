@@ -42,6 +42,6 @@ export default async function CreditsPage() {
         </div>
       </div>
       <AdBanner role="vendor" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

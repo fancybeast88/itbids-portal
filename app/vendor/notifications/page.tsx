@@ -67,6 +67,6 @@ export default async function VendorNotificationsPage() {
         </div>
       </div>
       <AdBanner role="vendor" />
-    </PortalLayout>
+</PortalLayout>
   )
 }
