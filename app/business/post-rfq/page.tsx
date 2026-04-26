@@ -24,6 +24,6 @@ export default async function PostRFQPage() {
         <PostRFQForm postFee={postFee} bizCredits={biz.credits} />
       </div>
       <AdBanner role="business" />
-    </PortalLayout>
+</PortalLayout>
   )
 }

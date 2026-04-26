@@ -19,7 +19,6 @@ export default async function BusinessCreditsPage() {
   })
   const settings = await prisma.globalSettings.findUnique({ where: { id: 'singleton' } })
   const postFee = settings?.rfqPostFee ?? 50
-
   return (
     <PortalLayout bizCredits={biz.credits}>
       <div className="p-6 max-w-2xl">
