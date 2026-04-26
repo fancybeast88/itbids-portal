@@ -28,8 +28,29 @@ export default async function VendorProfilePage() {
           </div>
         </div>
         <ChangePasswordForm />
+      <AdBanner />
       </div>
     </PortalLayout>
   )
 }
 
+async function AdBanner() {
+  return (
+    <div id="ad-banner-content" className="rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-5 relative overflow-hidden">
+      <div className="absolute top-2 right-3 text-[9px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
+      <div className="flex items-center gap-2 mb-2">
+        <div className="w-6 h-6 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11V5l5-4 5 4v6H7V7H5v4H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </div>
+        <div className="text-sm font-bold text-amber-700">TO LET - Advertisement Space</div>
+      </div>
+      <div className="text-xs text-amber-800 leading-relaxed mb-3">
+        Advertise your IT products and services here and reach hundreds of verified IT vendors and procurement teams across Pakistan through Lead Vault.
+      </div>
+      <div className="bg-amber-100 rounded-lg px-3 py-2 inline-block">
+        <div className="text-[10px] text-amber-600 mb-0.5">To book this space, email us at</div>
+        <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
+      </div>
+    </div>
+  )
+}
