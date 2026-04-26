@@ -9,6 +9,7 @@ const statusColor: Record<string, string> = {
 }
 
 export default function AdminQuotesTable({ quotes }: { quotes: any[] }) {
+  const [list, setList] = useState<any[]>(quotes)
   const [expanded, setExpanded] = useState<string | null>(null)
   const [filter, setFilter]     = useState('all')
   const [deleting, setDeleting] = useState<string | null>(null)
@@ -18,12 +19,12 @@ export default function AdminQuotesTable({ quotes }: { quotes: any[] }) {
     setDeleting(id)
     const res = await fetch('/api/admin/quotes/' + id, { method: 'DELETE' })
     setDeleting(null)
-    if (res.ok) setQuotes((q: any[]) => q.filter(x => x.id !== id))
+    if (res.ok) setList((q: any[]) => q.filter((x: any) => x.id !== id))
     else alert('Failed to delete')
   }
   const [search, setSearch]     = useState('')
 
-  const filtered = quotes.filter(q => {
+  const filtered = list.filter(q => {
     if (filter !== 'all' && q.status !== filter) return false
     if (search) {
       const s = search.toLowerCase()
