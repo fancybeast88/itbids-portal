@@ -1,6 +1,7 @@
 'use client'
 import { useSession, signOut } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 
@@ -41,6 +42,7 @@ const adminNav: NavItem[] = [
   { label: 'Users',        href: '/admin/users',      icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
   { label: 'Payments',     href: '/admin/payments',   icon: <Icon d="M1 4h13v8H1zM1 7h13" /> },
   { label: 'Settings',     href: '/admin/settings',   icon: <Icon d="M7 7m-2 0a2 2 0 104 0 2 2 0 10-4 0M7 1v2M7 12v2M1 7h2M12 7h2" /> },
+  { label: 'Advertisements', href: '/admin/ads',         icon: <Icon d="M1 3h13v9H1zM4 3V1M10 3V1M1 7h13" /> },
 ]
 
 export default function PortalLayout({
@@ -53,6 +55,14 @@ export default function PortalLayout({
   const { data: session } = useSession()
   const pathname = usePathname()
   const role = (session?.user as any)?.role
+
+  const [ads, setAds] = useState<any[]>([])
+
+  useEffect(() => {
+    if (role && role !== 'admin') {
+      fetch('/api/ads').then(r => r.json()).then(d => setAds(Array.isArray(d) ? d : [])).catch(() => {})
+    }
+  }, [role])
 
   const nav = role === 'admin' ? adminNav : role === 'business' ? businessNav : vendorNav
   const roleLabel = role === 'admin' ? 'Admin' : role === 'business' ? 'Business' : 'Vendor'
@@ -102,21 +112,44 @@ export default function PortalLayout({
           )}
 
           {role !== 'admin' && (
-            <div className="mx-0 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-2.5 relative overflow-hidden">
-              <div className="absolute top-1 right-1.5 text-[7px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
-              <div className="flex items-center gap-1.5 mb-1">
-                <div className="w-4 h-4 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
-                  <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1 9V4l4-3 4 3v5H6V6H4v3H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <div className="space-y-2">
+              {ads.length === 0 ? (
+                <div className="mx-0 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-2.5 relative overflow-hidden">
+                  <div className="absolute top-1 right-1.5 text-[7px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <div className="w-4 h-4 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
+                      <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1 9V4l4-3 4 3v5H6V6H4v3H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </div>
+                    <div className="text-[10px] font-bold text-amber-700">TO LET</div>
+                  </div>
+                  <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">
+                    Advertise here and reach 1000s of IT vendors and businesses in Pakistan.
+                  </div>
+                  <div className="bg-amber-100 rounded px-1.5 py-1">
+                    <div className="text-[8px] text-amber-600">Book this space</div>
+                    <div className="text-[9px] font-bold text-amber-800">advert@leadvault.pk</div>
+                  </div>
                 </div>
-                <div className="text-[10px] font-bold text-amber-700">TO LET</div>
-              </div>
-              <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">
-                Advertise here — reach 1000s of IT vendors and businesses in Pakistan.
-              </div>
-              <div className="bg-amber-100 rounded px-1.5 py-1">
-                <div className="text-[8px] text-amber-600">Book this space</div>
-                <div className="text-[9px] font-bold text-amber-800">advert@leadvault.pk</div>
-              </div>
+              ) : (
+                ads.map((ad: any) => (
+                  <div key={ad.id} className="mx-0 rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50 p-2.5 relative overflow-hidden">
+                    <div className="absolute top-1 right-1.5 text-[7px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
+                    {ad.imageUrl && (
+                      <img src={ad.imageUrl} alt={ad.title} className="w-full h-16 object-cover rounded-lg mb-2" />
+                    )}
+                    <div className="text-[10px] font-bold text-amber-700 mb-1">{ad.title}</div>
+                    {ad.bodyText && <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">{ad.bodyText}</div>}
+                    {(ad.linkUrl || ad.contactEmail) && (
+                      <div className="bg-amber-100 rounded px-1.5 py-1">
+                        {ad.linkUrl
+                          ? <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer" className="text-[9px] font-bold text-blue-700 underline">{ad.linkUrl.replace('https://', '')}</a>
+                          : <div className="text-[9px] font-bold text-amber-800">{ad.contactEmail}</div>
+                        }
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
             </div>
           )}
 

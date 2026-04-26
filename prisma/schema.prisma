@@ -197,3 +197,16 @@ model StockItem {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now())
 }
+
+model Advertisement {
+  id           String   @id @default(uuid())
+  title        String
+  imageUrl     String?
+  linkUrl      String?
+  bodyText     String?
+  contactEmail String?
+  isActive     Boolean  @default(true)
+  showTo       String   @default("all")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+}
