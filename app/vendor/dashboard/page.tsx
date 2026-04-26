@@ -182,13 +182,6 @@ export default async function VendorDashboardPage() {
             <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
           </div>
         </div>
-        <div className="text-sm font-bold text-amber-700 mb-1">TO LET - Advertisement Space</div>
-          <div className="text-xs text-amber-800 leading-relaxed mb-3">Reach hundreds of verified IT vendors and businesses across Pakistan through Lead Vault.</div>
-          <div className="bg-amber-100 rounded-lg px-3 py-2 inline-block">
-            <div className="text-[10px] text-amber-600 mb-0.5">Book this space</div>
-            <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
-          </div>
-        </div>
     </PortalLayout>
   )
 }
