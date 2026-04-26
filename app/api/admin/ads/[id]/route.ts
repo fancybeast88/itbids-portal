@@ -8,7 +8,8 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const session = await getServerSession(authOptions)
   if (!session || (session.user as any).role !== 'admin') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   const body = await req.json()
-  await prisma.advertisement.update({ where: { id }, data: { ...body, updatedAt: new Date() } })
+  const { createdAt, id: _id, ...data } = body
+  await prisma.advertisement.update({ where: { id }, data: { ...data, updatedAt: new Date() } })
   return NextResponse.json({ success: true })
 }
 

@@ -60,7 +60,7 @@ export default function PortalLayout({
 
   useEffect(() => {
     if (role && role !== 'admin') {
-      fetch('/api/ads').then(r => r.json()).then(d => setAds(Array.isArray(d) ? d : [])).catch(() => {})
+      fetch('/api/ads?placement=sidebar').then(r => r.json()).then(d => setAds(Array.isArray(d) ? d : [])).catch(() => {})
     }
   }, [role])
 

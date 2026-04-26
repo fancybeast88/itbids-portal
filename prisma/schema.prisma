@@ -205,8 +205,12 @@ model Advertisement {
   linkUrl      String?
   bodyText     String?
   contactEmail String?
+  bgColor      String?
+  textColor    String?
+  placement    String   @default("both")
   isActive     Boolean  @default(true)
   showTo       String   @default("all")
+  sortOrder    Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
 }
