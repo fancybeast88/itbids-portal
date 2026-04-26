@@ -132,17 +132,29 @@ export default function PortalLayout({
                 </div>
               ) : (
                 ads.map((ad: any) => (
-                  <div key={ad.id} className="mx-0 rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-yellow-50 p-2.5 relative overflow-hidden">
-                    <div className="absolute top-1 right-1.5 text-[7px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
-                    {ad.imageUrl && (
-                      <img src={ad.imageUrl} alt={ad.title} className="w-full h-16 object-cover rounded-lg mb-2" />
+                  <div key={ad.id} className="mx-0 rounded-xl border-2 border-amber-300 overflow-hidden shadow-sm">
+                    <div className="bg-amber-400 px-2 py-1 flex items-center justify-between">
+                      <span className="text-[9px] font-bold text-white uppercase tracking-widest">Sponsored</span>
+                      <span className="text-[9px] text-amber-100">{ad.title}</span>
+                    </div>
+                    {ad.imageUrl ? (
+                      <div className="relative">
+                        <img src={ad.imageUrl} alt={ad.title} className="w-full h-24 object-cover" />
+                        {ad.bodyText && (
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+                            <div className="text-[9px] text-white leading-relaxed">{ad.bodyText}</div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="bg-gradient-to-br from-amber-50 to-yellow-50 px-2.5 py-2">
+                        {ad.bodyText && <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">{ad.bodyText}</div>}
+                      </div>
                     )}
-                    <div className="text-[10px] font-bold text-amber-700 mb-1">{ad.title}</div>
-                    {ad.bodyText && <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">{ad.bodyText}</div>}
                     {(ad.linkUrl || ad.contactEmail) && (
-                      <div className="bg-amber-100 rounded px-1.5 py-1">
+                      <div className="bg-amber-50 border-t border-amber-200 px-2 py-1.5">
                         {ad.linkUrl
-                          ? <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer" className="text-[9px] font-bold text-blue-700 underline">{ad.linkUrl.replace('https://', '')}</a>
+                          ? <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer" className="text-[9px] font-bold text-blue-600 underline break-all">{ad.linkUrl.replace('https://', '')}</a>
                           : <div className="text-[9px] font-bold text-amber-800">{ad.contactEmail}</div>
                         }
                       </div>
