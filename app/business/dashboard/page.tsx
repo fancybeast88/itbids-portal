@@ -3,6 +3,7 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
+import AdBanner from '@/components/AdBanner'
 import Link from 'next/link'
 
 export default async function BusinessDashboardPage() {
@@ -152,9 +153,6 @@ export default async function BusinessDashboardPage() {
           ))}
         </div>
       </div>
-
-      <div className="mx-6 mb-6 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-5 relative">
-        <div className="absolute top-2 right-3 text-[9px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
         <div className="flex items-center gap-2 mb-2">
           <div className="w-6 h-6 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11V5l5-4 5 4v6H7V7H5v4H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -169,6 +167,7 @@ export default async function BusinessDashboardPage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
+      <AdBanner role="business" />
     </PortalLayout>
   )
 }

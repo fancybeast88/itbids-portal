@@ -3,6 +3,7 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
+import AdBanner from '@/components/AdBanner'
 import BusinessCreditTopup from '@/components/business/BusinessCreditTopup'
 
 export default async function BusinessCreditsPage() {
@@ -30,8 +31,6 @@ export default async function BusinessCreditsPage() {
         </p>
         <BusinessCreditTopup packages={packages} transactions={transactions} bizCredits={biz.credits} postFee={postFee} bizEmail={session.user!.email!} bizId={biz.id} />
       </div>
-      <div className="mx-6 mb-6 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-5 relative">
-        <div className="absolute top-2 right-3 text-[9px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
         <div className="text-sm font-bold text-amber-700 mb-2">TO LET - Advertisement Space</div>
         <div className="text-xs text-amber-800 leading-relaxed mb-3">Reach hundreds of verified IT vendors and businesses across Pakistan through Lead Vault.</div>
         <div className="bg-amber-100 rounded-lg px-3 py-2 inline-block">
@@ -39,6 +38,7 @@ export default async function BusinessCreditsPage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
+      <AdBanner role="business" />
     </PortalLayout>
   )
 }
