@@ -16,29 +16,31 @@ function Icon({ d }: { d: string }) {
 
 const vendorNav: NavItem[] = [
   { label: 'Dashboard',    href: '/vendor/dashboard',     icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
-  { label: 'Browse RFQs',   href: '/vendor/rfqs',          icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'My Quotes',     href: '/vendor/quotes',        icon: <Icon d="M2 2h11v11H2z" /> },
-  { label: 'Buy Credits',   href: '/vendor/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
-  { label: 'Notifications', href: '/vendor/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
-  { label: 'Profile',       href: '/vendor/profile',       icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
+  { label: 'Browse RFQs',  href: '/vendor/rfqs',          icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
+  { label: 'My Stock',     href: '/vendor/stock',         icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
+  { label: 'My Quotes',    href: '/vendor/quotes',        icon: <Icon d="M2 2h11v11H2z" /> },
+  { label: 'Buy Credits',  href: '/vendor/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
+  { label: 'Notifications',href: '/vendor/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
+  { label: 'Profile',      href: '/vendor/profile',       icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
 ]
 
 const businessNav: NavItem[] = [
   { label: 'Dashboard',    href: '/business/dashboard',   icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
-  { label: 'Post RFQ',      href: '/business/post-rfq',      icon: <Icon d="M2 2h11v11H2zM7 5v5M4.5 7.5h5" /> },
-  { label: 'My RFQs',       href: '/business/my-rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'Buy Credits',   href: '/business/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
-  { label: 'Notifications', href: '/business/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
-  { label: 'Profile',       href: '/business/profile',       icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
+  { label: 'Post RFQ',     href: '/business/post-rfq',    icon: <Icon d="M2 2h11v11H2zM7 5v5M4.5 7.5h5" /> },
+  { label: 'My RFQs',      href: '/business/my-rfqs',     icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
+  { label: 'Vendor Stock', href: '/business/stock',       icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
+  { label: 'Buy Credits',  href: '/business/credits',     icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
+  { label: 'Notifications',href: '/business/notifications',icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
+  { label: 'Profile',      href: '/business/profile',     icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
 ]
 
 const adminNav: NavItem[] = [
-  { label: 'Dashboard',     href: '/admin/dashboard',  icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
-  { label: 'RFQ Approvals', href: '/admin/rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'All Quotes',    href: '/admin/quotes',     icon: <Icon d="M2 2h11v11H2zM5 5h5M5 8h3" /> },
-  { label: 'Users',         href: '/admin/users',      icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
-  { label: 'Payments',      href: '/admin/payments',   icon: <Icon d="M1 4h13v8H1zM1 7h13" /> },
-  { label: 'Settings',      href: '/admin/settings',   icon: <Icon d="M7 7m-2 0a2 2 0 104 0 2 2 0 10-4 0M7 1v2M7 12v2M1 7h2M12 7h2" /> },
+  { label: 'Dashboard',    href: '/admin/dashboard',  icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
+  { label: 'RFQ Approvals',href: '/admin/rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
+  { label: 'All Quotes',   href: '/admin/quotes',     icon: <Icon d="M2 2h11v11H2zM5 5h5M5 8h3" /> },
+  { label: 'Users',        href: '/admin/users',      icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
+  { label: 'Payments',     href: '/admin/payments',   icon: <Icon d="M1 4h13v8H1zM1 7h13" /> },
+  { label: 'Settings',     href: '/admin/settings',   icon: <Icon d="M7 7m-2 0a2 2 0 104 0 2 2 0 10-4 0M7 1v2M7 12v2M1 7h2M12 7h2" /> },
 ]
 
 export default function PortalLayout({
@@ -69,9 +71,7 @@ export default function PortalLayout({
             const active = pathname.startsWith(item.href)
             return (
               <Link key={item.href} href={item.href}
-                className={`flex items-center gap-2.5 px-3 py-2 text-xs mx-1 rounded-lg transition-all ${
-                  active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
-                }`}>
+                className={"flex items-center gap-2.5 px-3 py-2 text-xs mx-1 rounded-lg transition-all " + (active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50')}>
                 {item.icon}
                 {item.label}
               </Link>
@@ -100,6 +100,26 @@ export default function PortalLayout({
               </Link>
             </div>
           )}
+
+          {role !== 'admin' && (
+            <div className="mx-0 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-2.5 relative overflow-hidden">
+              <div className="absolute top-1 right-1.5 text-[7px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
+              <div className="flex items-center gap-1.5 mb-1">
+                <div className="w-4 h-4 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
+                  <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1 9V4l4-3 4 3v5H6V6H4v3H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <div className="text-[10px] font-bold text-amber-700">TO LET</div>
+              </div>
+              <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">
+                Advertise here — reach 1000s of IT vendors and businesses in Pakistan.
+              </div>
+              <div className="bg-amber-100 rounded px-1.5 py-1">
+                <div className="text-[8px] text-amber-600">Book this space</div>
+                <div className="text-[9px] font-bold text-amber-800">advert@leadvault.pk</div>
+              </div>
+            </div>
+          )}
+
           <button onClick={() => signOut({ callbackUrl: '/login' })}
             className="w-full text-left text-xs text-gray-400 hover:text-gray-600 px-1 py-1 flex items-center gap-2">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -108,4 +128,11 @@ export default function PortalLayout({
             Sign out
           </button>
         </div>
+      </aside>
+
+      <main className="flex-1 overflow-y-auto">
+        {children}
+      </main>
+    </div>
+  )
 }
