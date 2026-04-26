@@ -11,6 +11,16 @@ const statusColor: Record<string, string> = {
 export default function AdminQuotesTable({ quotes }: { quotes: any[] }) {
   const [expanded, setExpanded] = useState<string | null>(null)
   const [filter, setFilter]     = useState('all')
+  const [deleting, setDeleting] = useState<string | null>(null)
+
+  async function deleteQuote(id: string) {
+    if (!confirm('Delete this quote? This cannot be undone.')) return
+    setDeleting(id)
+    const res = await fetch('/api/admin/quotes/' + id, { method: 'DELETE' })
+    setDeleting(null)
+    if (res.ok) setQuotes((q: any[]) => q.filter(x => x.id !== id))
+    else alert('Failed to delete')
+  }
   const [search, setSearch]     = useState('')
 
   const filtered = quotes.filter(q => {
@@ -86,6 +96,10 @@ export default function AdminQuotesTable({ quotes }: { quotes: any[] }) {
                     </span>
                   </td>
                   <td className="px-4 py-2.5">
+                    <button onClick={() => deleteQuote(q.id)} disabled={deleting === q.id}
+                      className="text-[10px] px-2.5 py-1 bg-red-50 text-red-600 rounded-lg border border-red-200 mr-1 disabled:opacity-50">
+                      {deleting === q.id ? '...' : 'Delete'}
+                    </button>
                     <button onClick={() => setExpanded(expanded === q.id ? null : q.id)}
                       className="text-[10px] px-2.5 py-1 bg-blue-50 text-blue-700 rounded-lg border border-blue-200">
                       {expanded === q.id ? 'Hide' : 'View'}
