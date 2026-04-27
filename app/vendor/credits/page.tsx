@@ -19,7 +19,7 @@ export default async function VendorCreditsPage() {
       <div className="p-6 max-w-2xl">
         <h1 className="text-lg font-semibold text-gray-800 mb-1">Buy Credits</h1>
         <p className="text-xs text-gray-400 mb-6">Current balance: <strong>{vendor.credits} credits</strong></p>
-        <CreditTopup packages={packages} transactions={transactions} vendorCredits={vendor.credits} vendorEmail={session.user!.email!} />
+        <CreditTopup packages={packages} transactions={transactions} vendorEmail={session.user!.email!} />
       </div>
     </PortalLayout>
   )
