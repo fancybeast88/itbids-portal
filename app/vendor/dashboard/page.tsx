@@ -52,6 +52,83 @@ export default async function VendorDashboardPage() {
 
   return (
     <PortalLayout credits={vendor.credits}>
-</PortalLayout>
+      <div className="p-6 space-y-5">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-lg font-semibold text-gray-800">Welcome, {vendor.companyName}</h1>
+            <p className="text-xs text-gray-400 mt-0.5">Track RFQs, quotes, stock, and unlock activity</p>
+          </div>
+          <Link href="/vendor/quotes/new" className="text-sm px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">
+            + Submit Quote
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-6 gap-3">
+          {[
+            { label: 'Credits', value: stats.credits, color: 'text-blue-600', href: '/vendor/credits' },
+            { label: 'RFQs available', value: rfqsAvailable, color: 'text-green-600', href: '/vendor/rfqs' },
+            { label: 'Total quotes', value: stats.totalQuotes, color: 'text-gray-800', href: '/vendor/quotes' },
+            { label: 'Pending', value: stats.pending, color: 'text-amber-600', href: '/vendor/quotes' },
+            { label: 'Shortlisted', value: stats.shortlisted, color: 'text-indigo-600', href: '/vendor/quotes' },
+            { label: 'Won', value: stats.won, color: 'text-emerald-600', href: '/vendor/quotes' },
+          ].map(s => (
+            <Link key={s.label} href={s.href} className="bg-white border border-gray-100 rounded-xl p-3 hover:shadow-sm transition">
+              <div className="text-[10px] text-gray-400 mb-1">{s.label}</div>
+              <div className={'text-2xl font-bold ' + s.color}>{s.value}</div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-white border border-gray-100 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-xs font-semibold text-gray-700">Recent quotes</div>
+              <Link href="/vendor/quotes" className="text-xs text-blue-600">View all</Link>
+            </div>
+            {quotes.length === 0 && <div className="text-xs text-gray-400 py-4 text-center">No quotes submitted yet</div>}
+            {quotes.slice(0, 5).map(q => (
+              <div key={q.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                <div>
+                  <div className="text-xs font-medium text-gray-700 truncate max-w-[220px]">{q.rfq.title}</div>
+                  <div className="text-[10px] text-gray-400">{q.rfq.business.companyName}</div>
+                </div>
+                <span className={'text-[10px] px-2 py-0.5 rounded-full ' + badge(q.status)}>{q.status}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-white border border-gray-100 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-xs font-semibold text-gray-700">Recent unlocks</div>
+              <Link href="/vendor/rfqs" className="text-xs text-blue-600">Browse RFQs</Link>
+            </div>
+            {recentUnlocks.length === 0 && <div className="text-xs text-gray-400 py-4 text-center">No RFQs unlocked yet</div>}
+            {recentUnlocks.map(u => (
+              <div key={u.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
+                <div>
+                  <div className="text-xs font-medium text-gray-700 truncate max-w-[220px]">{u.rfq.title}</div>
+                  <div className="text-[10px] text-gray-400">{u.rfq.business.companyName}</div>
+                </div>
+                <span className={'text-[10px] px-2 py-0.5 rounded-full ' + badge('available')}>Unlocked</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-3">
+          {[
+            { label: 'Browse RFQs', sub: rfqsAvailable + ' approved RFQs', href: '/vendor/rfqs', color: 'border-blue-200 bg-blue-50' },
+            { label: 'Manage stock', sub: stats.stockItems + ' active items', href: '/vendor/stock', color: 'border-indigo-200 bg-indigo-50' },
+            { label: 'My quotes', sub: stats.totalQuotes + ' total submitted', href: '/vendor/quotes', color: 'border-purple-200 bg-purple-50' },
+            { label: 'Buy credits', sub: 'Current: ' + stats.credits + ' cr', href: '/vendor/credits', color: 'border-green-200 bg-green-50' },
+          ].map(a => (
+            <Link key={a.label} href={a.href} className={'border-2 rounded-xl p-4 hover:shadow-sm transition ' + a.color}>
+              <div className="text-sm font-medium text-gray-800 mb-1">{a.label}</div>
+              <div className="text-[10px] text-gray-500">{a.sub}</div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </PortalLayout>
   )
 }
