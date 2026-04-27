@@ -3,7 +3,6 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 import ChangePasswordForm from '@/components/ChangePasswordForm'
 
 export default async function BusinessProfilePage() {
@@ -38,7 +37,6 @@ export default async function BusinessProfilePage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
-      <AdBanner role="business" />
 </PortalLayout>
   )
 }

@@ -3,7 +3,6 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 import VendorRFQList from '@/components/vendor/VendorRFQList'
 
 export default async function VendorRFQsPage() {
@@ -61,7 +60,6 @@ export default async function VendorRFQsPage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
-      <AdBanner role="vendor" />
 </PortalLayout>
   )
 }

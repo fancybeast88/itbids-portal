@@ -3,7 +3,6 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 import PostRFQForm from '@/components/business/PostRFQForm'
 
 export default async function PostRFQPage() {
@@ -23,7 +22,6 @@ export default async function PostRFQPage() {
         </p>
         <PostRFQForm postFee={postFee} bizCredits={biz.credits} />
       </div>
-      <AdBanner role="business" />
 </PortalLayout>
   )
 }

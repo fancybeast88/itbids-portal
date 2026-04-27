@@ -3,7 +3,6 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 
 export default async function BusinessNotificationsPage() {
   const session = await getServerSession(authOptions)
@@ -33,7 +32,6 @@ export default async function BusinessNotificationsPage() {
           ))}
         </div>
       </div>
-      <AdBanner role="business" />
 </PortalLayout>
   )
 }

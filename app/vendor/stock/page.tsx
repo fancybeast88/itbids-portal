@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 
 const BRANDS = ['Dell','HP','Fortinet','Cisco','Lenovo','IBM','Huawei','Aruba','Other']
 const CATS   = ['Laptops','Desktops','Servers','Networking','Firewall','Storage','Other']
@@ -215,7 +214,6 @@ export default function VendorStockPage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
-      <AdBanner role="vendor" />
 </PortalLayout>
   )
 }

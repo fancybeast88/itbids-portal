@@ -3,7 +3,6 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 
 const typeColor: Record<string, string> = {
   'rfq-approved':      'bg-green-400',
@@ -64,7 +63,6 @@ export default async function VendorNotificationsPage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
-      <AdBanner role="vendor" />
 </PortalLayout>
   )
 }

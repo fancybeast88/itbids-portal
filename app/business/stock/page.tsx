@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 
 const typeColor: Record<string, string> = {
   available: 'bg-green-50 text-green-700 border-green-200',
@@ -119,7 +118,6 @@ export default function BusinessStockPage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
-      <AdBanner role="business" />
 </PortalLayout>
   )
 }

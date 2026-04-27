@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 import Link from 'next/link'
 
 const statusColor: Record<string, string> = {
@@ -155,7 +154,6 @@ export default function VendorQuotesPage() {
           <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
         </div>
       </div>
-      <AdBanner role="vendor" />
 </PortalLayout>
   )
 }

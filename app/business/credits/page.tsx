@@ -3,7 +3,6 @@ import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
-import AdBanner from '@/components/AdBanner'
 import BusinessCreditTopup from '@/components/business/BusinessCreditTopup'
 
 export default async function BusinessCreditsPage() {
@@ -28,7 +27,6 @@ export default async function BusinessCreditsPage() {
         </p>
         <BusinessCreditTopup packages={packages} transactions={transactions} bizCredits={biz.credits} postFee={postFee} bizEmail={session.user!.email!} bizId={biz.id} />
       </div>
-      <AdBanner role="business" />
     </PortalLayout>
   )
 }
