@@ -120,13 +120,13 @@ export default function PortalLayout({
                     <div className="w-4 h-4 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
                       <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1 9V4l4-3 4 3v5H6V6H4v3H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </div>
-                    <div className="text-[10px] font-bold text-amber-700">TO LET</div>
+                    <div className="text-[10px] font-bold text-amber-700">TOLET</div>
                   </div>
                   <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">
-                    Advertise here and reach 1000s of IT vendors and businesses in Pakistan.
+                    TOLET - please contact us to place your banner here
                   </div>
                   <div className="bg-amber-100 rounded px-1.5 py-1">
-                    <div className="text-[8px] text-amber-600">Book this space</div>
+                    <div className="text-[8px] text-amber-600">Suggested size: 300 x 250 px</div>
                     <div className="text-[9px] font-bold text-amber-800">advert@leadvault.pk</div>
                   </div>
                 </div>

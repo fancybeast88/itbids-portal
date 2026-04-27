@@ -147,6 +147,14 @@ export default function AdminAdsManager({ ads: initial }: { ads: any[] }) {
         </div>
       </div>
 
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <div className="text-xs font-semibold text-amber-700 mb-1">Recommended banner sizes</div>
+        <div className="text-[11px] text-amber-800 leading-relaxed">
+          Content/full-width banner: <span className="font-semibold">1200 x 280 px</span>.<br />
+          Sidebar banner: <span className="font-semibold">300 x 250 px</span>.
+        </div>
+      </div>
+
       {/* Ad list */}
       <div className="space-y-2">
         {ads.length === 0 && (

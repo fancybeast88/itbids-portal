@@ -3,6 +3,7 @@ import './globals.css'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import SessionProvider from '@/components/SessionProvider'
+import ContentAdBanner from '@/components/ContentAdBanner'
 
 export const metadata: Metadata = {
   title: 'IT Bids Portal — Pakistan IT Procurement',
@@ -16,6 +17,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <SessionProvider session={session}>
           {children}
+          <ContentAdBanner />
         </SessionProvider>
       </body>
     </html>
