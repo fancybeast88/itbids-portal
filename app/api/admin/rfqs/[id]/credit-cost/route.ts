@@ -12,8 +12,11 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   try {
     const body = await req.json()
     const creditCost = Number(body.creditCost)
-    if (!creditCost || isNaN(creditCost) || creditCost < 1) {
+    if (!Number.isFinite(creditCost) || !Number.isInteger(creditCost)) {
       return NextResponse.json({ error: 'Invalid credit cost' }, { status: 400 })
+    }
+    if (creditCost < 1 || creditCost > 20) {
+      return NextResponse.json({ error: 'Credit cost must be between 1 and 20' }, { status: 400 })
     }
     await prisma.rfq.update({ where: { id }, data: { creditCost } })
     return NextResponse.json({ success: true, creditCost })

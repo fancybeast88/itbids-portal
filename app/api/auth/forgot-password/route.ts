@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import prisma from '@/lib/prisma'
 import { sendEmail } from '@/lib/email'
+import { rateLimit } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
   try {
+    const limited = rateLimit(req, { key: 'forgot-password', limit: 5, windowMs: 60 * 60 * 1000 })
+    if (limited) return limited
+
     const { email } = await req.json()
     if (!email || typeof email !== 'string') {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })

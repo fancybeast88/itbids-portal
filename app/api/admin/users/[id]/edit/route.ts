@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import bcrypt from 'bcrypt'
+import { BCRYPT_COST } from '@/lib/auth'
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -20,7 +21,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   if (password) {
     if (password.length < 8) return NextResponse.json({ error: 'Password must be at least 8 characters' }, { status: 400 })
-    const passwordHash = await bcrypt.hash(password, 10)
+    const passwordHash = await bcrypt.hash(password, BCRYPT_COST)
     await prisma.user.update({ where: { id }, data: { passwordHash } })
   }
 

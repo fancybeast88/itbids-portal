@@ -2,9 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 import { prisma } from '@/lib/prisma';
 import { sendEmail } from '@/lib/email';
+import { rateLimit } from '@/lib/rate-limit';
+import { BCRYPT_COST } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
+    const limited = rateLimit(req, { key: 'register', limit: 5, windowMs: 60 * 60 * 1000 });
+    if (limited) return limited;
+
     const body = await req.json();
     const { email, password, role, companyName, contactPerson, phone, city, ntn, brands, partnerLevel } = body;
 
@@ -30,7 +35,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'An account with this email already exists' }, { status: 409 });
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, BCRYPT_COST);
 
     await prisma.$transaction(async (tx) => {
       const user = await tx.user.create({

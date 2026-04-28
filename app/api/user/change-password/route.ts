@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import bcrypt from 'bcrypt'
+import { BCRYPT_COST } from '@/lib/auth'
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
   const valid = await bcrypt.compare(currentPassword, user.passwordHash)
   if (!valid) return NextResponse.json({ error: 'Current password is incorrect' }, { status: 400 })
 
-  const passwordHash = await bcrypt.hash(newPassword, 10)
+  const passwordHash = await bcrypt.hash(newPassword, BCRYPT_COST)
   await prisma.user.update({ where: { id: user.id }, data: { passwordHash } })
 
   return NextResponse.json({ success: true })

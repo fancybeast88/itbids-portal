@@ -172,14 +172,21 @@ model PasswordResetToken {
 }
 
 model BusinessCreditTransaction {
-  id        String          @id @default(uuid())
-  bizId     String
-  business  BusinessProfile @relation(fields: [bizId], references: [id])
-  type      String
-  credits   Int
-  rfqId     String?
-  status    String          @default("confirmed")
-  createdAt DateTime        @default(now())
+  id            String          @id @default(uuid())
+  bizId         String
+  business      BusinessProfile @relation(fields: [bizId], references: [id])
+  type          String
+  credits       Int
+  rfqId         String?
+  amountPkr     Int?
+  paymentMethod String?
+  paymentRef    String?
+  status        String          @default("confirmed")
+  createdAt     DateTime        @default(now())
+  confirmedAt   DateTime?
+  @@index([bizId, createdAt])
+  @@index([paymentRef, status])
+  @@index([type, status, createdAt])
 }
 
 model GlobalSettings {
