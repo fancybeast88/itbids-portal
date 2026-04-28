@@ -13,6 +13,13 @@ export type EmailTemplate =
   | 'account-approved'
   | 'account-pending'
   | 'admin-new-registration'
+  | 'password-reset'
+
+const escapeHtml = (s: unknown) => String(s ?? '')
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+
+const e = escapeHtml
 
 const subjects: Record<EmailTemplate, string> = {
   'rfq-approved':           'Your RFQ is now live — IT Bids Portal',
@@ -24,6 +31,7 @@ const subjects: Record<EmailTemplate, string> = {
   'account-approved':       'Account approved — IT Bids Portal',
   'account-pending':        'Application received — IT Bids Portal',
   'admin-new-registration': '[Admin] New registration pending approval',
+  'password-reset':         'Reset your password — IT Bids Portal',
 }
 
 function wrap(content: string) {
@@ -42,32 +50,36 @@ function renderTemplate(template: EmailTemplate, data: Record<string, any>): str
   const portal = process.env.NEXTAUTH_URL || 'https://itbids.pk'
   const map: Record<EmailTemplate, string> = {
     'rfq-approved': wrap(`<h2 style="color:#0F6E56">Your RFQ is now live</h2>
-      <p>Your RFQ <strong>"${data.rfqTitle}"</strong> has been approved and is now visible to vendors.</p>
+      <p>Your RFQ <strong>"${e(data.rfqTitle)}"</strong> has been approved and is now visible to vendors.</p>
       <a href="${portal}/business/my-rfqs" style="${btn}">View your RFQs</a>`),
     'rfq-rejected': wrap(`<h2 style="color:#A32D2D">RFQ not approved</h2>
-      <p>Your RFQ <strong>"${data.rfqTitle}"</strong> was not approved.${data.reason ? ` Reason: ${data.reason}` : ''}</p>`),
+      <p>Your RFQ <strong>"${e(data.rfqTitle)}"</strong> was not approved.${data.reason ? ` Reason: ${e(data.reason)}` : ''}</p>`),
     'rfq-unlocked': wrap(`<h2 style="color:#185FA5">RFQ unlocked</h2>
-      <p>You unlocked <strong>"${data.rfqTitle}"</strong> using <strong>${data.creditsUsed} credits</strong>.</p>
-      <a href="${portal}/vendor/quotes/new?rfqId=${data.rfqId}" style="${btn}">Submit quote</a>`),
+      <p>You unlocked <strong>"${e(data.rfqTitle)}"</strong> using <strong>${e(data.creditsUsed)} credits</strong>.</p>
+      <a href="${portal}/vendor/quotes/new?rfqId=${encodeURIComponent(String(data.rfqId ?? ''))}" style="${btn}">Submit quote</a>`),
     'quote-received': wrap(`<h2 style="color:#185FA5">New quote received</h2>
-      <p>A vendor submitted a quote for <strong>"${data.rfqTitle}"</strong>. Amount: <strong>PKR ${data.amount}</strong></p>
+      <p>A vendor submitted a quote for <strong>"${e(data.rfqTitle)}"</strong>. Amount: <strong>PKR ${e(data.amount)}</strong></p>
       <a href="${portal}/business/my-rfqs" style="${btn}">Review quote</a>`),
     'quote-shortlisted': wrap(`<h2 style="color:#185FA5">You have been shortlisted</h2>
-      <p>Your quote for <strong>"${data.rfqTitle}"</strong> has been shortlisted by the buyer.</p>
+      <p>Your quote for <strong>"${e(data.rfqTitle)}"</strong> has been shortlisted by the buyer.</p>
       <a href="${portal}/vendor/quotes" style="${btn}">View my quotes</a>`),
     'credits-added': wrap(`<h2 style="color:#0F6E56">Credits added</h2>
-      <p><strong>${data.credits} credits</strong> added. New balance: <strong>${data.balance} credits</strong></p>
+      <p><strong>${e(data.credits)} credits</strong> added. New balance: <strong>${e(data.balance)} credits</strong></p>
       <a href="${portal}/vendor/rfqs" style="${btn}">Browse RFQs</a>`),
     'account-approved': wrap(`<h2 style="color:#0F6E56">Account approved</h2>
-      <p>Your IT Bids Portal account for <strong>${data.companyName}</strong> has been approved.</p>
+      <p>Your IT Bids Portal account for <strong>${e(data.companyName)}</strong> has been approved.</p>
       <a href="${portal}/login" style="${btn}">Sign in now</a>`),
     'account-pending': wrap(`<h2>Application received</h2>
       <p>Thank you for registering. Your account is under review and will be approved within 24 hours.</p>`),
     'admin-new-registration': wrap(`<h2>New registration pending</h2>
-      <p>Company: <strong>${data.companyName}</strong> · Role: ${data.role} · Email: ${data.email}</p>
+      <p>Company: <strong>${e(data.companyName)}</strong> · Role: ${e(data.role)} · Email: ${e(data.email)}</p>
       <a href="${portal}/admin/users" style="${btn}">Review in admin</a>`),
+    'password-reset': wrap(`<h2 style="color:#185FA5">Reset your password</h2>
+      <p>We received a request to reset the password for your IT Bids Portal account.</p>
+      <p>This link is valid for 1 hour. If you didn't request a reset, you can safely ignore this email.</p>
+      <a href="${portal}/reset-password?token=${encodeURIComponent(String(data.token ?? ''))}" style="${btn}">Reset password</a>`),
   }
-  return map[template] || wrap(`<p>${JSON.stringify(data)}</p>`)
+  return map[template] || wrap(`<p>${e(JSON.stringify(data))}</p>`)
 }
 
 export async function sendEmail({

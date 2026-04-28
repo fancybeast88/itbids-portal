@@ -32,7 +32,11 @@ export function generateJazzCashRequest(
   };
 
   const salt = process.env.JAZZCASH_INTEGRITY_SALT || '';
-  const sortedValues = Object.keys(params).sort().map(k => params[k]).join('&');
+  const sortedValues = Object.keys(params)
+    .sort()
+    .filter(k => params[k] !== '' && params[k] !== undefined && params[k] !== null)
+    .map(k => params[k])
+    .join('&');
   const hashStr = `${salt}&${sortedValues}`;
 
   params.pp_SecureHash = crypto

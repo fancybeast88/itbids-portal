@@ -10,6 +10,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const role = (session.user as any).role
+  const userId = (session.user as any).id
   if (role !== 'business' && role !== 'admin') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
@@ -17,6 +18,22 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const { status } = await req.json()
   if (!['shortlisted', 'won', 'lost'].includes(status)) {
     return NextResponse.json({ error: 'Invalid status' }, { status: 400 })
+  }
+
+  const existing = await prisma.quote.findUnique({
+    where: { id },
+    include: { rfq: { select: { businessId: true } } },
+  })
+  if (!existing) return NextResponse.json({ error: 'Quote not found' }, { status: 404 })
+
+  if (role === 'business') {
+    const biz = await prisma.businessProfile.findUnique({
+      where: { userId },
+      select: { id: true },
+    })
+    if (!biz || biz.id !== existing.rfq.businessId) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
   }
 
   const quote = await prisma.quote.update({

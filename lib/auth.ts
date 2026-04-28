@@ -13,13 +13,14 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        })
+        const email = credentials.email.trim().toLowerCase()
+        const user = await prisma.user.findUnique({ where: { email } })
         if (!user) return null
-        if (user.status !== 'approved') return null
         const valid = await bcrypt.compare(credentials.password, user.passwordHash)
         if (!valid) return null
+        if (user.status !== 'approved') {
+          throw new Error('Account not yet approved')
+        }
         return { id: user.id, email: user.email, name: user.role, role: user.role } as any
       },
     }),

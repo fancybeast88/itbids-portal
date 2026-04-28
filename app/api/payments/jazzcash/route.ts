@@ -18,11 +18,11 @@ export async function POST(req: NextRequest) {
 
   if (responseCode === '000') {
     const txn = await prisma.creditTransaction.findFirst({
-      where: { paymentRef: txnRef, status: 'pending' },
+      where: { paymentRef: txnRef, status: 'pending', type: 'purchase' },
       include: { vendor: { include: { user: true } } },
     });
 
-    if (txn) {
+    if (txn && txn.credits > 0) {
       await prisma.$transaction([
         prisma.creditTransaction.update({
           where: { id: txn.id },
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
 
   await prisma.creditTransaction.updateMany({
     where: { paymentRef: txnRef },
-    data:  { status: 'FAILED' },
+    data:  { status: 'failed' },
   });
   return NextResponse.redirect(new URL('/vendor/credits?status=failed', req.url));
 }

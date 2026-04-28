@@ -20,6 +20,12 @@ export async function POST(req: NextRequest) {
 
   if (!txn) return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
   if (txn.status !== 'pending') return NextResponse.json({ error: 'Transaction is not pending' }, { status: 400 });
+  if (txn.type !== 'purchase') {
+    return NextResponse.json({ error: 'Only purchase transactions can be confirmed here' }, { status: 400 });
+  }
+  if (txn.credits <= 0) {
+    return NextResponse.json({ error: 'Invalid credit amount' }, { status: 400 });
+  }
 
   await prisma.$transaction([
     prisma.creditTransaction.update({
