@@ -12,6 +12,7 @@ export default async function AdminRFQsPage() {
   const rfqs = await prisma.rfq.findMany({
     include: { business: { select: { companyName: true, city: true } } },
     orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
+    take: 200,
   })
 
   const costs = await prisma.categoryCreditCost.findMany()

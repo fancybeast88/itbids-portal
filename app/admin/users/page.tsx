@@ -14,11 +14,13 @@ export default async function AdminUsersPage() {
       where: { role: 'vendor' },
       include: { vendorProfile: true },
       orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
+      take: 200,
     }),
     prisma.user.findMany({
       where: { role: 'business' },
       include: { businessProfile: true },
       orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
+      take: 200,
     }),
   ])
 

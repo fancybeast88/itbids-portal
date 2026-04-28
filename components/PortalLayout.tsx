@@ -55,6 +55,7 @@ export default function PortalLayout({
   const { data: session } = useSession()
   const pathname = usePathname()
   const role = (session?.user as any)?.role
+  const [navOpen, setNavOpen] = useState(false)
 
   const [ads, setAds] = useState<any[]>([])
 
@@ -68,8 +69,15 @@ export default function PortalLayout({
   const roleLabel = role === 'admin' ? 'Admin' : role === 'business' ? 'Business' : 'Vendor'
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <aside className="w-52 bg-white border-r border-gray-100 flex flex-col">
+    <div className="flex min-h-screen bg-slate-50">
+      <button
+        onClick={() => setNavOpen(v => !v)}
+        className="fixed z-40 bottom-4 right-4 md:hidden rounded-full bg-blue-600 text-white px-4 py-2 text-xs shadow-lg"
+      >
+        Menu
+      </button>
+
+      <aside className={'fixed md:static inset-y-0 left-0 z-30 w-64 md:w-56 bg-white border-r border-slate-200 flex flex-col transition-transform duration-200 ' + (navOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0')}>
         <div className="px-4 py-4 border-b border-gray-100">
           <Logo size="sm" />
           <div className="text-xs text-gray-400 mt-2">{roleLabel}: {session?.user?.email?.split('@')[0]}</div>
@@ -81,7 +89,8 @@ export default function PortalLayout({
             const active = pathname.startsWith(item.href)
             return (
               <Link key={item.href} href={item.href}
-                className={"flex items-center gap-2.5 px-3 py-2 text-xs mx-1 rounded-lg transition-all " + (active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50')}>
+                onClick={() => setNavOpen(false)}
+                className={"flex items-center gap-2.5 px-3 py-2 text-xs mx-1 rounded-lg transition-all " + (active ? 'bg-brand-50 text-brand-700 font-medium' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50')}>
                 {item.icon}
                 {item.label}
               </Link>
@@ -95,7 +104,7 @@ export default function PortalLayout({
               <div className="text-[10px] text-gray-400">Credits</div>
               <div className="text-xl font-semibold text-gray-800">{credits ?? '—'}</div>
               <div className="text-[10px] text-gray-400">100 = PKR 1,000</div>
-              <Link href="/vendor/credits" className="block text-center text-xs bg-blue-600 text-white rounded-md py-1 mt-2">
+              <Link href="/vendor/credits" className="block text-center text-xs bg-brand-600 text-white rounded-md py-1 mt-2">
                 + Buy credits
               </Link>
             </div>
@@ -105,7 +114,7 @@ export default function PortalLayout({
               <div className="text-[10px] text-gray-400">Credits</div>
               <div className="text-xl font-semibold text-gray-800">{bizCredits ?? '—'}</div>
               <div className="text-[10px] text-gray-400">100 = PKR 1,000</div>
-              <Link href="/business/credits" className="block text-center text-xs bg-blue-600 text-white rounded-md py-1 mt-2">
+              <Link href="/business/credits" className="block text-center text-xs bg-brand-600 text-white rounded-md py-1 mt-2">
                 + Buy credits
               </Link>
             </div>
@@ -175,7 +184,7 @@ export default function PortalLayout({
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto md:ml-0">
         {children}
       </main>
     </div>

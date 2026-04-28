@@ -76,6 +76,9 @@ model Rfq {
   expiresAt    DateTime?
   unlocks RfqUnlock[]
   quotes  Quote[]
+  @@index([businessId, createdAt])
+  @@index([status, createdAt])
+  @@index([category, createdAt])
 }
 
 model RfqUnlock {
@@ -105,6 +108,9 @@ model Quote {
   validityDays Int           @default(14)
   status       String        @default("submitted")
   submittedAt  DateTime      @default(now())
+  @@index([vendorId, submittedAt])
+  @@index([rfqId, submittedAt])
+  @@index([status, submittedAt])
 }
 
 model CreditTransaction {
@@ -119,6 +125,9 @@ model CreditTransaction {
   status        String        @default("pending")
   createdAt     DateTime      @default(now())
   confirmedAt   DateTime?
+  @@index([vendorId, createdAt])
+  @@index([paymentRef, status])
+  @@index([type, status, createdAt])
 }
 
 model CategoryCreditCost {
@@ -196,6 +205,8 @@ model StockItem {
   isActive     Boolean       @default(true)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now())
+  @@index([vendorId, isActive, createdAt])
+  @@index([type, isActive, createdAt])
 }
 
 model Advertisement {
@@ -213,4 +224,5 @@ model Advertisement {
   sortOrder    Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
+  @@index([isActive, placement, showTo, sortOrder])
 }

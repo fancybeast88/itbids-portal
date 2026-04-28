@@ -4,39 +4,47 @@ import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
 import AdminQuotesTable from '@/components/admin/AdminQuotesTable'
+import { PageHeader, StatCard, StatGrid } from '@/components/ui'
 
 export default async function AdminQuotesPage() {
   const session = await getServerSession(authOptions)
   if (!session || (session.user as any).role !== 'admin') redirect('/login')
 
-  const quotes = await prisma.quote.findMany({
-    include: {
-      rfq: {
-        include: {
-          business: { select: { companyName: true, city: true, phone: true } },
+  const [quotes, quoteStatusStats, quoteTotals] = await Promise.all([
+    prisma.quote.findMany({
+      include: {
+        rfq: {
+          include: {
+            business: { select: { companyName: true, city: true, phone: true } },
+          },
+        },
+        vendor: {
+          select: { companyName: true, contactPerson: true, phone: true, city: true, partnerLevel: true },
         },
       },
-      vendor: {
-        select: { companyName: true, contactPerson: true, phone: true, city: true, partnerLevel: true },
-      },
-    },
-    orderBy: { submittedAt: 'desc' },
-  })
+      orderBy: { submittedAt: 'desc' },
+      take: 200,
+    }),
+    prisma.quote.groupBy({ by: ['status'], _count: true }),
+    prisma.quote.aggregate({ _sum: { totalAmount: true }, _count: true }),
+  ])
 
+  const quoteMap = Object.fromEntries(quoteStatusStats.map(q => [q.status, q._count]))
   const stats = {
-    total:       quotes.length,
-    submitted:   quotes.filter(q => q.status === 'submitted').length,
-    shortlisted: quotes.filter(q => q.status === 'shortlisted').length,
-    won:         quotes.filter(q => q.status === 'won').length,
-    totalValue:  quotes.reduce((s, q) => s + Number(q.totalAmount), 0),
+    total:       quoteTotals._count,
+    submitted:   quoteMap['submitted'] || 0,
+    shortlisted: quoteMap['shortlisted'] || 0,
+    won:         quoteMap['won'] || 0,
+    totalValue:  Number(quoteTotals._sum.totalAmount || 0),
   }
 
   return (
     <PortalLayout>
       <div className="p-6">
-        <h1 className="text-lg font-semibold text-gray-800 mb-5">All Submitted Quotes</h1>
+        <PageHeader title="All Submitted Quotes" subtitle="Moderate vendor responses and track quote outcomes." />
 
-        <div className="grid grid-cols-5 gap-3 mb-6">
+        <div className="mt-5 mb-6">
+          <StatGrid>
           {[
             { label: 'Total quotes',  value: stats.total },
             { label: 'Pending',       value: stats.submitted,   color: 'text-amber-600' },
@@ -44,11 +52,9 @@ export default async function AdminQuotesPage() {
             { label: 'Won',           value: stats.won,         color: 'text-green-600' },
             { label: 'Total value',   value: `PKR ${Math.round(stats.totalValue / 1000)}K`, color: 'text-gray-700' },
           ].map(s => (
-            <div key={s.label} className="bg-white border border-gray-100 rounded-xl p-3">
-              <div className="text-[10px] text-gray-400 mb-1">{s.label}</div>
-              <div className={`text-xl font-semibold ${s.color || 'text-gray-800'}`}>{s.value}</div>
-            </div>
+            <StatCard key={s.label} label={s.label} value={s.value} color={s.color} />
           ))}
+          </StatGrid>
         </div>
 
         <AdminQuotesTable quotes={quotes} />

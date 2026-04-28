@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import prisma from '@/lib/prisma'
 import PortalLayout from '@/components/PortalLayout'
 import Link from 'next/link'
+import { PageHeader, StatCard, StatGrid } from '@/components/ui'
 
 export default async function VendorDashboardPage() {
   const session = await getServerSession(authOptions)
@@ -12,11 +13,13 @@ export default async function VendorDashboardPage() {
   const vendor = await prisma.vendorProfile.findUnique({ where: { userId: (session.user as any).id } })
   if (!vendor) redirect('/login')
 
-  const [quotes, rfqsAvailable, stockItems, recentUnlocks] = await Promise.all([
+  const [quoteStats, recentQuotes, rfqsAvailable, stockItems, recentUnlocks] = await Promise.all([
+    prisma.quote.groupBy({ by: ['status'], where: { vendorId: vendor.id }, _count: true }),
     prisma.quote.findMany({
       where: { vendorId: vendor.id },
       include: { rfq: { include: { business: { select: { companyName: true } } } } },
       orderBy: { submittedAt: 'desc' },
+      take: 5,
     }),
     prisma.rfq.count({ where: { status: 'approved' } }),
     prisma.stockItem.findMany({
@@ -32,12 +35,13 @@ export default async function VendorDashboardPage() {
     }),
   ])
 
+  const quoteMap = Object.fromEntries(quoteStats.map(q => [q.status, q._count]))
   const stats = {
     credits:     vendor.credits,
-    totalQuotes: quotes.length,
-    pending:     quotes.filter(q => q.status === 'submitted').length,
-    shortlisted: quotes.filter(q => q.status === 'shortlisted').length,
-    won:         quotes.filter(q => q.status === 'won').length,
+    totalQuotes: Object.values(quoteMap).reduce((a: any, b: any) => a + b, 0),
+    pending:     quoteMap['submitted'] || 0,
+    shortlisted: quoteMap['shortlisted'] || 0,
+    won:         quoteMap['won'] || 0,
     stockItems:  stockItems.length,
   }
 
@@ -53,17 +57,13 @@ export default async function VendorDashboardPage() {
   return (
     <PortalLayout credits={vendor.credits}>
       <div className="p-6 space-y-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-lg font-semibold text-gray-800">Welcome, {vendor.companyName}</h1>
-            <p className="text-xs text-gray-400 mt-0.5">Track RFQs, quotes, stock, and unlock activity</p>
-          </div>
-          <Link href="/vendor/quotes/new" className="text-sm px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">
-            + Submit Quote
-          </Link>
-        </div>
+        <PageHeader
+          title={`Welcome, ${vendor.companyName}`}
+          subtitle="Track RFQs, quotes, stock, and unlock activity"
+          action={<Link href="/vendor/quotes/new" className="text-sm px-4 py-2 rounded-lg font-medium bg-blue-600 text-white">+ Submit Quote</Link>}
+        />
 
-        <div className="grid grid-cols-6 gap-3">
+        <StatGrid>
           {[
             { label: 'Credits', value: stats.credits, color: 'text-blue-600', href: '/vendor/credits' },
             { label: 'RFQs available', value: rfqsAvailable, color: 'text-green-600', href: '/vendor/rfqs' },
@@ -72,21 +72,18 @@ export default async function VendorDashboardPage() {
             { label: 'Shortlisted', value: stats.shortlisted, color: 'text-indigo-600', href: '/vendor/quotes' },
             { label: 'Won', value: stats.won, color: 'text-emerald-600', href: '/vendor/quotes' },
           ].map(s => (
-            <Link key={s.label} href={s.href} className="bg-white border border-gray-100 rounded-xl p-3 hover:shadow-sm transition">
-              <div className="text-[10px] text-gray-400 mb-1">{s.label}</div>
-              <div className={'text-2xl font-bold ' + s.color}>{s.value}</div>
-            </Link>
+            <StatCard key={s.label} label={s.label} value={s.value} color={s.color} href={s.href} />
           ))}
-        </div>
+        </StatGrid>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="bg-white border border-gray-100 rounded-xl p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="text-xs font-semibold text-gray-700">Recent quotes</div>
               <Link href="/vendor/quotes" className="text-xs text-blue-600">View all</Link>
             </div>
-            {quotes.length === 0 && <div className="text-xs text-gray-400 py-4 text-center">No quotes submitted yet</div>}
-            {quotes.slice(0, 5).map(q => (
+            {recentQuotes.length === 0 && <div className="text-xs text-gray-400 py-4 text-center">No quotes submitted yet</div>}
+            {recentQuotes.map(q => (
               <div key={q.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                 <div>
                   <div className="text-xs font-medium text-gray-700 truncate max-w-[220px]">{q.rfq.title}</div>
@@ -115,7 +112,7 @@ export default async function VendorDashboardPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
           {[
             { label: 'Browse RFQs', sub: rfqsAvailable + ' approved RFQs', href: '/vendor/rfqs', color: 'border-blue-200 bg-blue-50' },
             { label: 'Manage stock', sub: stats.stockItems + ' active items', href: '/vendor/stock', color: 'border-indigo-200 bg-indigo-50' },
