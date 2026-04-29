@@ -13,11 +13,13 @@ export async function GET(req: NextRequest) {
   const ads = await prisma.advertisement.findMany({
     where: {
       isActive: true,
+      imageUrl: { not: null },
       OR: [{ showTo: 'all' }, { showTo: role }],
       AND: [{ OR: [{ placement: 'both' }, { placement: placement }] }],
     },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
     take: 5,
+    select: { id: true, imageUrl: true, linkUrl: true },
   })
   return NextResponse.json(ads)
 }

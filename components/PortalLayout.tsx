@@ -19,7 +19,6 @@ import {
   Megaphone,
   FilePlus,
   Boxes,
-  ShoppingBag,
   LogOut,
   Menu,
   X,
@@ -204,72 +203,33 @@ export default function PortalLayout({
             </Link>
           )}
 
-          {role !== 'admin' && (
+          {role !== 'admin' && ads.length > 0 && (
             <div className="space-y-2">
-              {ads.length === 0 ? (
-                <div className="rounded-xl border border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-3 relative overflow-hidden">
-                  <div className="absolute top-1.5 right-2 text-[8px] font-bold text-amber-400 uppercase tracking-widest">
-                    Sponsored
-                  </div>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <div className="w-5 h-5 rounded-md bg-amber-400 flex items-center justify-center">
-                      <ShoppingBag size={11} className="text-white" />
-                    </div>
-                    <div className="text-[11px] font-bold text-amber-700">TOLET</div>
-                  </div>
-                  <div className="text-[10px] text-amber-800 leading-relaxed mb-2">
-                    TOLET — please contact us to place your banner here
-                  </div>
-                  <div className="bg-white/60 rounded-md px-2 py-1.5 ring-1 ring-amber-100">
-                    <div className="text-[9px] text-amber-600">Suggested size: 300 × 250 px</div>
-                    <div className="text-[10px] font-bold text-amber-800">advert@leadvault.pk</div>
-                  </div>
-                </div>
-              ) : (
-                ads.map((ad: any) => (
-                  <div key={ad.id} className="rounded-xl border border-amber-200 overflow-hidden shadow-sm">
-                    <div className="bg-amber-400 px-2 py-1 flex items-center justify-between">
-                      <span className="text-[9px] font-bold text-white uppercase tracking-widest">
-                        Sponsored
-                      </span>
-                      <span className="text-[9px] text-amber-50 truncate ml-2">{ad.title}</span>
-                    </div>
-                    {ad.imageUrl ? (
-                      <div className="relative">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={ad.imageUrl} alt={ad.title} className="w-full h-24 object-cover" />
-                        {ad.bodyText && (
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                            <div className="text-[10px] text-white leading-relaxed">{ad.bodyText}</div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="bg-gradient-to-br from-amber-50 to-yellow-50 px-2.5 py-2">
-                        {ad.bodyText && (
-                          <div className="text-[10px] text-amber-800 leading-relaxed">{ad.bodyText}</div>
-                        )}
-                      </div>
-                    )}
-                    {(ad.linkUrl || ad.contactEmail) && (
-                      <div className="bg-amber-50 border-t border-amber-200 px-2 py-1.5">
-                        {ad.linkUrl ? (
-                          <a
-                            href={ad.linkUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[10px] font-semibold text-brand-600 underline break-all"
-                          >
-                            {ad.linkUrl.replace(/^https?:\/\//, '')}
-                          </a>
-                        ) : (
-                          <div className="text-[10px] font-semibold text-amber-800">{ad.contactEmail}</div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))
-              )}
+              {ads
+                .filter((ad: any) => !!ad.imageUrl)
+                .map((ad: any) => {
+                  const img = (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={ad.imageUrl}
+                      alt=""
+                      className="block w-full rounded-lg object-cover ring-1 ring-slate-200/80"
+                    />
+                  )
+                  return ad.linkUrl ? (
+                    <a
+                      key={ad.id}
+                      href={ad.linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      className="block transition hover:opacity-90"
+                    >
+                      {img}
+                    </a>
+                  ) : (
+                    <div key={ad.id}>{img}</div>
+                  )
+                })}
             </div>
           )}
 

@@ -1,63 +1,49 @@
 'use client'
 import { useEffect, useState } from 'react'
 
+type Ad = {
+  id: string
+  imageUrl?: string | null
+  linkUrl?: string | null
+}
+
 export default function ContentAdBanner({ role }: { role?: string }) {
-  const [ads, setAds] = useState<any[]>([])
+  const [ads, setAds] = useState<Ad[]>([])
 
   useEffect(() => {
     fetch('/api/ads?placement=content')
       .then(r => r.json())
-      .then(d => setAds(Array.isArray(d) ? d : []))
+      .then(d => setAds(Array.isArray(d) ? d.filter((a: Ad) => !!a.imageUrl) : []))
       .catch(() => {})
-  }, [])
+  }, [role])
 
-  if (ads.length === 0) {
-    return (
-      <div className="mx-6 mb-6 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-5 relative overflow-hidden min-h-28">
-        <div className="absolute top-2 right-3 text-[9px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-6 h-6 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11V5l5-4 5 4v6H7V7H5v4H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </div>
-          <div className="text-sm font-bold text-amber-700">TOLET - please contact us to place your banner here</div>
-        </div>
-        <div className="bg-amber-100 rounded-lg px-3 py-2 inline-block">
-          <div className="text-[10px] text-amber-600 mb-0.5">Suggested size: 1200 x 280 px</div>
-          <div className="text-sm font-bold text-amber-800">advert@leadvault.pk</div>
-        </div>
-      </div>
-    )
-  }
+  if (ads.length === 0) return null
 
   return (
     <div className="mx-6 mb-6 space-y-3">
       {ads.map(ad => {
-        const bg = ad.bgColor || 'from-amber-50 to-yellow-50 border-amber-300'
-        const inner = (
-          <div key={ad.id} className={"rounded-xl border-2 border-dashed bg-gradient-to-br p-4 relative overflow-hidden " + bg}>
-            <div className="absolute top-2 right-3 text-[9px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
-            <div className="flex gap-4 items-center">
-              {ad.imageUrl && (
-                <img src={ad.imageUrl} alt={ad.title}
-                  className="h-20 w-32 object-cover rounded-lg flex-shrink-0 border border-white/50"
-                  onError={e => (e.currentTarget.style.display='none')} />
-              )}
-              <div className="flex-1">
-                <div className="text-sm font-bold text-gray-800 mb-1">{ad.title}</div>
-                {ad.bodyText && <div className="text-xs text-gray-600 leading-relaxed mb-2">{ad.bodyText}</div>}
-                {(ad.linkUrl || ad.contactEmail) && (
-                  <div className="inline-block bg-white/70 rounded-lg px-3 py-1.5">
-                    <div className="text-[10px] text-gray-500 mb-0.5">Contact</div>
-                    <div className="text-xs font-bold text-blue-700">{ad.linkUrl || ad.contactEmail}</div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+        const img = (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={ad.imageUrl!}
+            alt=""
+            className="block w-full rounded-xl object-cover ring-1 ring-slate-200/80 shadow-card"
+            onError={e => (e.currentTarget.style.display = 'none')}
+          />
         )
-        return ad.linkUrl
-          ? <a key={ad.id} href={ad.linkUrl} target="_blank" rel="noopener noreferrer" className="block hover:opacity-90 transition">{inner}</a>
-          : <div key={ad.id}>{inner}</div>
+        return ad.linkUrl ? (
+          <a
+            key={ad.id}
+            href={ad.linkUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="block transition hover:opacity-90"
+          >
+            {img}
+          </a>
+        ) : (
+          <div key={ad.id}>{img}</div>
+        )
       })}
     </div>
   )
