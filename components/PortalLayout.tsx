@@ -4,49 +4,66 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import {
+  LayoutDashboard,
+  ListChecks,
+  Package,
+  FileText,
+  CreditCard,
+  Bell,
+  UserCircle,
+  ShieldCheck,
+  ClipboardList,
+  Receipt,
+  Settings,
+  Megaphone,
+  FilePlus,
+  Boxes,
+  ShoppingBag,
+  LogOut,
+  Menu,
+  X,
+  Plus,
+  Coins,
+  type LucideIcon,
+} from 'lucide-react'
 
-type NavItem = { label: string; href: string; icon: React.ReactNode }
-
-function Icon({ d }: { d: string }) {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="flex-shrink-0 opacity-70">
-      <path d={d} stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-    </svg>
-  )
-}
+type NavItem = { label: string; href: string; icon: LucideIcon }
 
 const vendorNav: NavItem[] = [
-  { label: 'Dashboard',    href: '/vendor/dashboard',     icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
-  { label: 'Browse RFQs',  href: '/vendor/rfqs',          icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'My Stock',     href: '/vendor/stock',         icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
-  { label: 'My Quotes',    href: '/vendor/quotes',        icon: <Icon d="M2 2h11v11H2z" /> },
-  { label: 'Buy Credits',  href: '/vendor/credits',       icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
-  { label: 'Notifications',href: '/vendor/notifications', icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
-  { label: 'Profile',      href: '/vendor/profile',       icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
+  { label: 'Dashboard',     href: '/vendor/dashboard',     icon: LayoutDashboard },
+  { label: 'Browse RFQs',   href: '/vendor/rfqs',          icon: ListChecks },
+  { label: 'My Stock',      href: '/vendor/stock',         icon: Package },
+  { label: 'My Quotes',     href: '/vendor/quotes',        icon: FileText },
+  { label: 'Buy Credits',   href: '/vendor/credits',       icon: CreditCard },
+  { label: 'Notifications', href: '/vendor/notifications', icon: Bell },
+  { label: 'Profile',       href: '/vendor/profile',       icon: UserCircle },
 ]
 
 const businessNav: NavItem[] = [
-  { label: 'Dashboard',    href: '/business/dashboard',   icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
-  { label: 'Post RFQ',     href: '/business/post-rfq',    icon: <Icon d="M2 2h11v11H2zM7 5v5M4.5 7.5h5" /> },
-  { label: 'My RFQs',      href: '/business/my-rfqs',     icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'Vendor Stock', href: '/business/stock',       icon: <Icon d="M2 2h11v7H2zM2 11h11M5 14h5" /> },
-  { label: 'Buy Credits',  href: '/business/credits',     icon: <Icon d="M7 1v13M2 5l5-4 5 4M2 10l5 4 5-4" /> },
-  { label: 'Notifications',href: '/business/notifications',icon: <Icon d="M7 1a4 4 0 014 4v3l1 2H2l1-2V5a4 4 0 014-4zM5 10.5a2 2 0 004 0" /> },
-  { label: 'Profile',      href: '/business/profile',     icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
+  { label: 'Dashboard',     href: '/business/dashboard',    icon: LayoutDashboard },
+  { label: 'Post RFQ',      href: '/business/post-rfq',     icon: FilePlus },
+  { label: 'My RFQs',       href: '/business/my-rfqs',      icon: ClipboardList },
+  { label: 'Vendor Stock',  href: '/business/stock',        icon: Boxes },
+  { label: 'Buy Credits',   href: '/business/credits',      icon: CreditCard },
+  { label: 'Notifications', href: '/business/notifications',icon: Bell },
+  { label: 'Profile',       href: '/business/profile',      icon: UserCircle },
 ]
 
 const adminNav: NavItem[] = [
-  { label: 'Dashboard',    href: '/admin/dashboard',  icon: <Icon d="M1 1h5v5H1zM9 1h5v5H9zM1 9h5v5H1zM9 9h5v5H9z" /> },
-  { label: 'RFQ Approvals',href: '/admin/rfqs',       icon: <Icon d="M1 2h13M1 7h13M1 12h8" /> },
-  { label: 'All Quotes',   href: '/admin/quotes',     icon: <Icon d="M2 2h11v11H2zM5 5h5M5 8h3" /> },
-  { label: 'Users',        href: '/admin/users',      icon: <Icon d="M7 6a3 3 0 100-6 3 3 0 000 6zM1 14c0-3 2.7-5 6-5s6 2 6 5" /> },
-  { label: 'Payments',     href: '/admin/payments',   icon: <Icon d="M1 4h13v8H1zM1 7h13" /> },
-  { label: 'Settings',     href: '/admin/settings',   icon: <Icon d="M7 7m-2 0a2 2 0 104 0 2 2 0 10-4 0M7 1v2M7 12v2M1 7h2M12 7h2" /> },
-  { label: 'Advertisements', href: '/admin/ads',         icon: <Icon d="M1 3h13v9H1zM4 3V1M10 3V1M1 7h13" /> },
+  { label: 'Dashboard',       href: '/admin/dashboard', icon: LayoutDashboard },
+  { label: 'RFQ Approvals',   href: '/admin/rfqs',      icon: ListChecks },
+  { label: 'All Quotes',      href: '/admin/quotes',    icon: FileText },
+  { label: 'Users',           href: '/admin/users',     icon: ShieldCheck },
+  { label: 'Payments',        href: '/admin/payments',  icon: Receipt },
+  { label: 'Settings',        href: '/admin/settings',  icon: Settings },
+  { label: 'Advertisements',  href: '/admin/ads',       icon: Megaphone },
 ]
 
 export default function PortalLayout({
-  children, credits, bizCredits,
+  children,
+  credits,
+  bizCredits,
 }: {
   children: React.ReactNode
   credits?: number
@@ -61,111 +78,193 @@ export default function PortalLayout({
 
   useEffect(() => {
     if (role && role !== 'admin') {
-      fetch('/api/ads?placement=sidebar').then(r => r.json()).then(d => setAds(Array.isArray(d) ? d : [])).catch(() => {})
+      fetch('/api/ads?placement=sidebar')
+        .then(r => r.json())
+        .then(d => setAds(Array.isArray(d) ? d : []))
+        .catch(() => {})
     }
   }, [role])
 
   const nav = role === 'admin' ? adminNav : role === 'business' ? businessNav : vendorNav
   const roleLabel = role === 'admin' ? 'Admin' : role === 'business' ? 'Business' : 'Vendor'
+  const roleAccent =
+    role === 'admin'
+      ? 'bg-violet-50 text-violet-700 ring-violet-100'
+      : role === 'business'
+      ? 'bg-emerald-50 text-emerald-700 ring-emerald-100'
+      : 'bg-brand-50 text-brand-700 ring-brand-100'
+
+  const showCredits = role === 'vendor' || role === 'business'
+  const creditValue = role === 'vendor' ? credits : role === 'business' ? bizCredits : undefined
+  const creditHref = role === 'vendor' ? '/vendor/credits' : '/business/credits'
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50/70">
+      {/* Mobile menu trigger */}
       <button
         onClick={() => setNavOpen(v => !v)}
-        className="fixed z-40 bottom-4 right-4 md:hidden rounded-full bg-blue-600 text-white px-4 py-2 text-xs shadow-lg"
+        aria-label="Toggle menu"
+        className="fixed z-40 bottom-4 right-4 md:hidden inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-600 text-white shadow-lg hover:bg-brand-700 transition"
       >
-        Menu
+        {navOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      <aside className={'fixed md:static inset-y-0 left-0 z-30 w-64 md:w-56 bg-white border-r border-slate-200 flex flex-col transition-transform duration-200 ' + (navOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0')}>
-        <div className="px-4 py-4 border-b border-gray-100">
+      {/* Mobile backdrop */}
+      {navOpen && (
+        <div
+          onClick={() => setNavOpen(false)}
+          className="fixed inset-0 z-20 bg-slate-900/40 backdrop-blur-sm md:hidden"
+          aria-hidden
+        />
+      )}
+
+      <aside
+        className={
+          'fixed md:static inset-y-0 left-0 z-30 w-64 md:w-60 bg-white border-r border-slate-200/80 flex flex-col transition-transform duration-200 ' +
+          (navOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0')
+        }
+      >
+        {/* Brand + role */}
+        <div className="px-5 pt-5 pb-4 border-b border-slate-100">
           <Logo size="sm" />
-          <div className="text-xs text-gray-400 mt-2">{roleLabel}: {session?.user?.email?.split('@')[0]}</div>
+          <div className="mt-3 flex items-center gap-2">
+            <span
+              className={
+                'inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 ring-inset ' +
+                roleAccent
+              }
+            >
+              <ShieldCheck size={10} strokeWidth={2.5} />
+              {roleLabel}
+            </span>
+            <span className="text-[11px] text-slate-400 truncate">
+              {session?.user?.email?.split('@')[0]}
+            </span>
+          </div>
         </div>
 
-        <nav className="flex-1 py-2">
-          <div className="px-3 py-1.5 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{roleLabel}</div>
-          {nav.map(item => {
-            const active = pathname.startsWith(item.href)
-            return (
-              <Link key={item.href} href={item.href}
-                onClick={() => setNavOpen(false)}
-                className={"flex items-center gap-2.5 px-3 py-2 text-xs mx-1 rounded-lg transition-all " + (active ? 'bg-brand-50 text-brand-700 font-medium' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50')}>
-                {item.icon}
-                {item.label}
-              </Link>
-            )
-          })}
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto px-2 py-3">
+          <div className="px-2.5 py-1 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+            Menu
+          </div>
+          <ul className="space-y-0.5">
+            {nav.map(item => {
+              const Icon = item.icon
+              const active = pathname === item.href || pathname.startsWith(item.href + '/')
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setNavOpen(false)}
+                    className={
+                      'group relative flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] transition ' +
+                      (active
+                        ? 'bg-brand-50 text-brand-700 font-medium'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50')
+                    }
+                  >
+                    {active && (
+                      <span className="absolute left-0 top-1/2 h-5 -translate-y-1/2 w-0.5 rounded-r-full bg-brand-600" />
+                    )}
+                    <Icon
+                      size={16}
+                      strokeWidth={active ? 2.25 : 2}
+                      className={active ? 'text-brand-600' : 'text-slate-400 group-hover:text-slate-600'}
+                    />
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
         </nav>
 
-        <div className="p-3 border-t border-gray-100 space-y-2">
-          {role === 'vendor' && (
-            <div className="bg-gray-50 rounded-lg p-2.5">
-              <div className="text-[10px] text-gray-400">Credits</div>
-              <div className="text-xl font-semibold text-gray-800">{credits ?? '—'}</div>
-              <div className="text-[10px] text-gray-400">100 = PKR 1,000</div>
-              <Link href="/vendor/credits" className="block text-center text-xs bg-brand-600 text-white rounded-md py-1 mt-2">
-                + Buy credits
-              </Link>
-            </div>
-          )}
-          {role === 'business' && (
-            <div className="bg-gray-50 rounded-lg p-2.5">
-              <div className="text-[10px] text-gray-400">Credits</div>
-              <div className="text-xl font-semibold text-gray-800">{bizCredits ?? '—'}</div>
-              <div className="text-[10px] text-gray-400">100 = PKR 1,000</div>
-              <Link href="/business/credits" className="block text-center text-xs bg-brand-600 text-white rounded-md py-1 mt-2">
-                + Buy credits
-              </Link>
-            </div>
+        {/* Footer */}
+        <div className="p-3 border-t border-slate-100 space-y-2">
+          {showCredits && (
+            <Link
+              href={creditHref}
+              className="block rounded-xl bg-gradient-to-br from-brand-50 to-brand-100/70 ring-1 ring-brand-100 p-3 hover:ring-brand-200 transition"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-brand-700">
+                  <Coins size={11} strokeWidth={2.5} />
+                  Credits
+                </div>
+                <span className="text-[10px] text-brand-500/80">100 = PKR 1,000</span>
+              </div>
+              <div className="mt-1.5 text-2xl font-bold tabular-nums text-brand-700">
+                {creditValue ?? '—'}
+              </div>
+              <div className="mt-2 inline-flex items-center gap-1 rounded-md bg-brand-600 text-white text-[11px] font-medium px-2.5 py-1 shadow-sm hover:bg-brand-700 transition">
+                <Plus size={11} strokeWidth={2.5} />
+                Buy credits
+              </div>
+            </Link>
           )}
 
           {role !== 'admin' && (
             <div className="space-y-2">
               {ads.length === 0 ? (
-                <div className="mx-0 rounded-xl border-2 border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-2.5 relative overflow-hidden">
-                  <div className="absolute top-1 right-1.5 text-[7px] font-bold text-amber-400 uppercase tracking-widest">Sponsored</div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <div className="w-4 h-4 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
-                      <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M1 9V4l4-3 4 3v5H6V6H4v3H1z" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <div className="rounded-xl border border-dashed border-amber-300 bg-gradient-to-br from-amber-50 to-yellow-50 p-3 relative overflow-hidden">
+                  <div className="absolute top-1.5 right-2 text-[8px] font-bold text-amber-400 uppercase tracking-widest">
+                    Sponsored
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <div className="w-5 h-5 rounded-md bg-amber-400 flex items-center justify-center">
+                      <ShoppingBag size={11} className="text-white" />
                     </div>
-                    <div className="text-[10px] font-bold text-amber-700">TOLET</div>
+                    <div className="text-[11px] font-bold text-amber-700">TOLET</div>
                   </div>
-                  <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">
-                    TOLET - please contact us to place your banner here
+                  <div className="text-[10px] text-amber-800 leading-relaxed mb-2">
+                    TOLET — please contact us to place your banner here
                   </div>
-                  <div className="bg-amber-100 rounded px-1.5 py-1">
-                    <div className="text-[8px] text-amber-600">Suggested size: 300 x 250 px</div>
-                    <div className="text-[9px] font-bold text-amber-800">advert@leadvault.pk</div>
+                  <div className="bg-white/60 rounded-md px-2 py-1.5 ring-1 ring-amber-100">
+                    <div className="text-[9px] text-amber-600">Suggested size: 300 × 250 px</div>
+                    <div className="text-[10px] font-bold text-amber-800">advert@leadvault.pk</div>
                   </div>
                 </div>
               ) : (
                 ads.map((ad: any) => (
-                  <div key={ad.id} className="mx-0 rounded-xl border-2 border-amber-300 overflow-hidden shadow-sm">
+                  <div key={ad.id} className="rounded-xl border border-amber-200 overflow-hidden shadow-sm">
                     <div className="bg-amber-400 px-2 py-1 flex items-center justify-between">
-                      <span className="text-[9px] font-bold text-white uppercase tracking-widest">Sponsored</span>
-                      <span className="text-[9px] text-amber-100">{ad.title}</span>
+                      <span className="text-[9px] font-bold text-white uppercase tracking-widest">
+                        Sponsored
+                      </span>
+                      <span className="text-[9px] text-amber-50 truncate ml-2">{ad.title}</span>
                     </div>
                     {ad.imageUrl ? (
                       <div className="relative">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={ad.imageUrl} alt={ad.title} className="w-full h-24 object-cover" />
                         {ad.bodyText && (
                           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                            <div className="text-[9px] text-white leading-relaxed">{ad.bodyText}</div>
+                            <div className="text-[10px] text-white leading-relaxed">{ad.bodyText}</div>
                           </div>
                         )}
                       </div>
                     ) : (
                       <div className="bg-gradient-to-br from-amber-50 to-yellow-50 px-2.5 py-2">
-                        {ad.bodyText && <div className="text-[9px] text-amber-800 leading-relaxed mb-1.5">{ad.bodyText}</div>}
+                        {ad.bodyText && (
+                          <div className="text-[10px] text-amber-800 leading-relaxed">{ad.bodyText}</div>
+                        )}
                       </div>
                     )}
                     {(ad.linkUrl || ad.contactEmail) && (
                       <div className="bg-amber-50 border-t border-amber-200 px-2 py-1.5">
-                        {ad.linkUrl
-                          ? <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer" className="text-[9px] font-bold text-blue-600 underline break-all">{ad.linkUrl.replace('https://', '')}</a>
-                          : <div className="text-[9px] font-bold text-amber-800">{ad.contactEmail}</div>
-                        }
+                        {ad.linkUrl ? (
+                          <a
+                            href={ad.linkUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[10px] font-semibold text-brand-600 underline break-all"
+                          >
+                            {ad.linkUrl.replace(/^https?:\/\//, '')}
+                          </a>
+                        ) : (
+                          <div className="text-[10px] font-semibold text-amber-800">{ad.contactEmail}</div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -174,19 +273,17 @@ export default function PortalLayout({
             </div>
           )}
 
-          <button onClick={() => signOut({ callbackUrl: '/login' })}
-            className="w-full text-left text-xs text-gray-400 hover:text-gray-600 px-1 py-1 flex items-center gap-2">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-              <path d="M5 2H2v10h3M9 9l3-3-3-3M12 6.5H5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="w-full inline-flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition"
+          >
+            <LogOut size={13} strokeWidth={2} />
             Sign out
           </button>
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto md:ml-0">
-        {children}
-      </main>
+      <main className="flex-1 overflow-y-auto">{children}</main>
     </div>
   )
 }
