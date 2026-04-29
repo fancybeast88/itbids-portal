@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import ContentAdBanner from '@/components/ContentAdBanner'
 import {
   LayoutDashboard,
   ListChecks,
@@ -243,7 +244,14 @@ export default function PortalLayout({
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="flex-1 overflow-y-auto">
+        {role && role !== 'admin' && (
+          <div className="pt-6">
+            <ContentAdBanner role={role} />
+          </div>
+        )}
+        {children}
+      </main>
     </div>
   )
 }
